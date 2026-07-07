@@ -1,137 +1,283 @@
-# Tomato - Food Delivery Web Application 🍅
+# 🍅 Tomato - Food Delivery Web Application
 
-##Live demo :-https://mern-stack-projects-lovat.vercel.app/
+<p align="center">
+  <a href="https://mern-stack-projects-lovat.vercel.app/">
+    <img src="https://img.shields.io/badge/Live-Demo-success?style=for-the-badge&logo=vercel" alt="Live Demo">
+  </a>
+  <a href="https://github.com/ghildiyalnitin067-a11y/mern-stack-projects">
+    <img src="https://img.shields.io/badge/Source-Code-181717?style=for-the-badge&logo=github" alt="Source Code">
+  </a>
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react" alt="React">
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite" alt="Vite">
+</p>
 
-A food delivery web app I'm building as a hands-on learning project using the MERN stack. Right now, the frontend is fully functional — you can browse the menu, add items to your cart, adjust quantities, and go through the checkout flow. The backend, admin panel, payments, and auth are still in progress.
+## 🚀 Live Demo
 
-> **Note:** This is a learning project inspired by the GreatStack MERN tutorial. I'm building it myself to really understand how all the pieces of a full-stack app fit together.
-
----
-
-## What's Working So Far (Frontend)
-
-Here's what the frontend can do right now:
-
-- **Home Page** — A hero banner with a call-to-action, a menu explorer where you can filter by food categories (salads, rolls, desserts, etc.), and a grid of food items with prices and images.
-- **Menu Browsing** — Click on a category to filter the food list, or click "All" to see everything. Each food item shows its name, description, price, and an image.
-- **Add to Cart** — Hit the "+" button on any food item to add it. A counter shows up so you can increase or decrease the quantity right from the food card.
-- **Cart Page** — See all your items in a clean table layout with item images, names, prices, quantities, and totals. You can bump quantities up or down, or remove items entirely. When the cart is empty, it shows a friendly empty state with a "Browse Menu" button.
-- **Cart Badge** — A small dot appears on the basket icon in the navbar whenever you have items in your cart. It disappears when the cart is empty.
-- **Place Order Page** — A delivery information form with fields for name, email, address, phone, etc. alongside a cart summary showing subtotal, delivery fee ($2 when you have items), and total.
-- **Login/Sign Up Popup** — A modal that lets users toggle between login and create account forms. Has email, password fields, and a terms & conditions checkbox.
-- **Smooth Scrolling** — The navbar links (Menu, Mobile App, Contact Us) smoothly scroll to their sections on the homepage, even if you're on a different page — it navigates home first, then scrolls.
-- **App Download Section** — A section encouraging users to download the Tomato mobile app with Play Store and App Store badges.
-- **Responsive Design** — The layout adapts to different screen sizes. On smaller screens, the header text hides, padding adjusts, and the grid shifts to fewer columns.
-- **State Management** — All cart logic lives in a React Context (`StoreContext`) so any component can access cart items, add/remove functions, and the total amount without prop drilling.
+👉 **https://mern-stack-projects-lovat.vercel.app/**
 
 ---
 
-## Tech Stack
+## 📌 About
 
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| Framework | React 19 + Vite 8                   |
-| Routing   | React Router v7                     |
-| State     | React Context API                   |
-| Styling   | Vanilla CSS with custom properties  |
-| Font      | Google Fonts (Outfit)               |
-| Deploy    | Vercel                              |
+Tomato is a **Food Delivery Web Application** built as a **project-based learning experience** using the **MERN Stack**.
+
+The current version includes a fully functional frontend where users can browse food items, manage their cart, and complete a checkout flow.
+
+The backend, authentication system, payment gateway, and admin dashboard are currently under development.
+
+> **Note:** This project is inspired by the GreatStack MERN Stack tutorial. I built the application myself to gain a deeper understanding of full-stack development rather than simply following along.
 
 ---
 
-## Project Structure
+# ✨ Current Features
 
-```
+### 🏠 Home Page
+
+- Modern hero banner
+- Call-to-action section
+- Food category explorer
+- Featured food items
+
+### 🍽 Menu Browsing
+
+- Browse all food items
+- Filter by categories
+- Responsive food grid
+- Product descriptions
+- Food pricing
+
+### 🛒 Shopping Cart
+
+- Add items
+- Increase quantity
+- Decrease quantity
+- Remove items
+- Automatic subtotal calculation
+- Delivery charge calculation
+- Empty cart state
+
+### 📦 Checkout
+
+- Delivery information form
+- Order summary
+- Delivery fee calculation
+- Total amount calculation
+
+### 🔐 Authentication UI
+
+- Login popup
+- Sign Up popup
+- Toggle between Login & Register
+- Terms & Conditions checkbox
+
+### 🎯 User Experience
+
+- Smooth scrolling navigation
+- Responsive design
+- Navbar cart indicator
+- Mobile-friendly layout
+
+### ⚛ State Management
+
+- React Context API
+- Global cart management
+- Shared application state
+- No prop drilling
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Frontend | React 19 |
+| Build Tool | Vite 8 |
+| Routing | React Router v7 |
+| State Management | React Context API |
+| Styling | Vanilla CSS |
+| Font | Google Fonts (Outfit) |
+| Deployment | Vercel |
+
+---
+
+# 📁 Project Structure
+
+```text
 Frontend/
+│
 ├── public/
 │   └── header_img.png
+│
 ├── src/
-│   ├── assets/            # Images, icons, and food data
+│   ├── assets/
 │   ├── components/
-│   │   ├── AppDownload/   # App download CTA section
-│   │   ├── ExploreMenu/   # Category filter menu
-│   │   ├── FoodDisplay/   # Food items grid
-│   │   ├── FoodItem/      # Individual food card with add-to-cart
-│   │   ├── Footer/        # Site footer with links and socials
-│   │   ├── Header/        # Hero banner with CTA
-│   │   ├── LoginPopup/    # Login/signup modal
-│   │   └── Navbar/        # Top navigation bar
+│   │   ├── AppDownload/
+│   │   ├── ExploreMenu/
+│   │   ├── FoodDisplay/
+│   │   ├── FoodItem/
+│   │   ├── Footer/
+│   │   ├── Header/
+│   │   ├── LoginPopup/
+│   │   └── Navbar/
+│   │
 │   ├── context/
-│   │   └── StoreContext.jsx  # Cart state and logic
+│   │   └── StoreContext.jsx
+│   │
 │   ├── pages/
-│   │   ├── Cart/          # Shopping cart page
-│   │   ├── Home/          # Landing page
-│   │   └── PlaceOrder/    # Checkout/delivery info page
-│   ├── App.jsx            # Routes and layout
-│   ├── main.jsx           # App entry point
-│   └── index.css          # Global styles and reset
-├── vercel.json            # SPA rewrite rules for Vercel
+│   │   ├── Cart/
+│   │   ├── Home/
+│   │   └── PlaceOrder/
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── vercel.json
 ├── vite.config.js
 └── package.json
 ```
 
 ---
 
-## Getting Started
+# ⚙ Installation
+
+Clone the repository
 
 ```bash
-# Clone the repo
-git clone <repository-url>
+git clone https://github.com/ghildiyalnitin067-a11y/mern-stack-projects.git
+```
 
-# Go into the frontend folder
+Move into the project
+
+```bash
 cd Frontend
+```
 
-# Install dependencies
+Install dependencies
+
+```bash
 npm install
+```
 
-# Start the dev server
+Start the development server
+
+```bash
 npm run dev
 ```
 
-The app will open at `http://localhost:5173`.
+Visit
+
+```
+http://localhost:5173
+```
 
 ---
 
-## Deploying to Vercel
+# 🚀 Deployment
 
-The frontend is deployment-ready for Vercel. A `vercel.json` is already included to handle client-side routing.
+The frontend is deployment-ready for **Vercel**.
 
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → New Project → Import your repo
-3. Set the **Root Directory** to `Frontend`
-4. Click Deploy — Vercel auto-detects Vite
+Steps:
 
----
-
-## What's Coming Next
-
-These are the things I still need to build:
-
-- **Backend** — Node.js + Express API with MongoDB for storing users, food items, and orders
-- **Authentication** — JWT-based login/signup with bcrypt password hashing
-- **Stripe Payments** — Integrate Stripe so users can actually pay for orders
-- **Admin Panel** — A separate dashboard to manage food items and view/update orders
-- **Order History** — Let users see their past orders
-- **Image Uploads** — Upload food images from the admin panel
-- **Search** — Search food items by name
-- **Promo Codes** — The input field is there on the cart page, just needs backend logic
+1. Push the project to GitHub
+2. Import the repository into Vercel
+3. Select **Frontend** as the Root Directory
+4. Deploy
 
 ---
 
-## What I've Learned So Far
+# 📈 Upcoming Features
 
-Building this frontend taught me quite a bit:
-
-- How to structure a React project with reusable components and clean folder organization
-- Using Context API for shared state instead of passing props through multiple levels
-- Client-side routing with React Router, including programmatic navigation and smooth scrolling
-- Conditional rendering patterns (ternary operators, short-circuit evaluation)
-- Responsive CSS without any frameworks — just media queries and flexible units like `vw`
-- How Vite works as a build tool and how to configure it for production
-- Setting up Vercel deployment with SPA rewrites
+- Node.js + Express Backend
+- MongoDB Database
+- JWT Authentication
+- Password Hashing (bcrypt)
+- Stripe Payment Integration
+- Admin Dashboard
+- Food Management
+- Order Tracking
+- Order History
+- Search Functionality
+- Promo Code System
+- Image Uploads
+- User Profile
+- Wishlist
 
 ---
 
-## Acknowledgement
+# 📚 What I Learned
 
-This project is part of my learning journey. I followed concepts from the GreatStack MERN Stack tutorial but wrote all the code myself to actually understand what's happening under the hood rather than just copying along.
+During this project I learned:
+
+- React Component Architecture
+- React Context API
+- React Router
+- State Management
+- Conditional Rendering
+- Responsive Design
+- CSS Layouts
+- Project Folder Structure
+- Vite Configuration
+- Vercel Deployment
+- Reusable Components
+- Client-side Routing
+
+---
+
+# 📸 Screenshots
+
+> Add screenshots here.
+
+Example:
+
+```
+screenshots/
+│
+├── home.png
+├── menu.png
+├── cart.png
+└── checkout.png
+```
+
+```md
+![Home](screenshots/home.png)
+
+![Menu](screenshots/menu.png)
+
+![Cart](screenshots/cart.png)
+
+![Checkout](screenshots/checkout.png)
+```
+
+---
+
+# 🎯 Future Goals
+
+- Complete Backend Development
+- Implement Secure Authentication
+- Integrate Online Payments
+- Build Admin Dashboard
+- Improve Performance
+- Add User Reviews & Ratings
+- Enhance UI/UX
+- Deploy Full MERN Application
+
+---
+
+# 🙏 Acknowledgement
+
+This project is part of my MERN Stack learning journey.
+
+The project is inspired by the **GreatStack MERN Stack Tutorial**, but the implementation has been developed by me to strengthen my understanding of full-stack web development.
+
+---
+
+# 👨‍💻 Author
+
+**Nitin Ghildiyal**
+
+- GitHub: https://github.com/ghildiyalnitin067-a11y
+
+---
+
+⭐ If you found this project useful, consider giving it a **Star** on GitHub!
