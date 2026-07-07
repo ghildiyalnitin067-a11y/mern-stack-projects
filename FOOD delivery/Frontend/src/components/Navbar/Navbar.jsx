@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Navbar.css'
 import { assets } from '../../assets/assets'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { StoreContext } from '../../context/StoreContext'
 
 
-const Navbar = (setShowLogin) => {
+const Navbar = ({ setShowLogin }) => {
 
   const [menu, setMenu] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { getTotalCartAmount } = useContext(StoreContext);
 
   const smoothScrollTo = (targetY, duration = 800) => {
     const startY = window.pageYOffset;
@@ -55,7 +57,7 @@ const Navbar = (setShowLogin) => {
 
   return (
     <div className='navbar'>
-      <img src={assets.logo} alt="" className="logo" />
+      <Link to='/'><img src={assets.logo} alt="" className="logo" /></Link>
       <ul className="navbar-menu">
         <Link to='/' onClick={() => setMenu("home")} className={menu == "home" ? "active" : ""}>Home</Link>
         <li onClick={() => scrollToSection('explore-menu', 'menu')} className={menu == "menu" ? "active" : ""}>menu</li>
@@ -65,10 +67,10 @@ const Navbar = (setShowLogin) => {
       <div className="navbar-right">
         <img src={assets.search_icon} alt="" />
         <div className="navbar-search-icon">
-          <img src={assets.basket_icon} alt="" />
-          <div className="dot"></div>
+          <Link to='/cart' ><img src={assets.basket_icon} alt="" /></Link>
+          {getTotalCartAmount() > 0 ? <div className="dot"></div> : null}
         </div>
-        <button onClick={()=>setShowLogin(true)}>sign in</button>
+        <button onClick={() => setShowLogin(true)}>sign in</button>
 
       </div>
     </div>

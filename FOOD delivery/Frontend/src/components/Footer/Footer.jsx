@@ -8,7 +8,7 @@ const Footer = () => {
          <div className="footer-content">
             <div className="footer-content-left">
                 <img src={assets.logo} alt="" />
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, quam! Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit quo ea culpa natus numquam accusantium aliquid quam non unde?</p>
+                <p>Tomato is your go-to food delivery platform, bringing the best restaurants and home-cooked meals straight to your doorstep. We are committed to delivering fresh, delicious food with fast and reliable service. Enjoy a seamless ordering experience every time.</p>
                  <div className="footer-social-icons">
                     <img src={assets.facebook_icon} alt="" />
                     <img src={assets.linkedin_icon} alt="" />
@@ -20,7 +20,7 @@ const Footer = () => {
                   <ul>
                     <li>Home</li>
                     <li>About us</li>
-                    <li>Delivey</li>
+                    <li>Delivery</li>
                     <li>Privacy policy</li>
                   </ul>
             </div>
