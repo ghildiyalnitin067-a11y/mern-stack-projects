@@ -1,5 +1,7 @@
 # Tomato - Food Delivery Web Application 🍅
 
+##Live demo :-https://mern-stack-projects-lovat.vercel.app/
+
 A food delivery web app I'm building as a hands-on learning project using the MERN stack. Right now, the frontend is fully functional — you can browse the menu, add items to your cart, adjust quantities, and go through the checkout flow. The backend, admin panel, payments, and auth are still in progress.
 
 > **Note:** This is a learning project inspired by the GreatStack MERN tutorial. I'm building it myself to really understand how all the pieces of a full-stack app fit together.
