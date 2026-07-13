@@ -27,6 +27,9 @@ hr{
 .app-content{
   display: flex;
 }
+.cursor{
+  cursor: pointer;
+}
 
 .flex-col{
   display: flex;
