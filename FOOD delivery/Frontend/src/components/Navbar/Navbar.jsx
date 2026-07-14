@@ -10,7 +10,12 @@ const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { getTotalCartAmount } = useContext(StoreContext);
+  const { getTotalCartAmount,token,setToken } = useContext(StoreContext);
+  const logout = () =>{
+     localStorage.removeItem("token")
+     setToken("")
+     navigate("/")
+  }
 
   const smoothScrollTo = (targetY, duration = 800) => {
     const startY = window.pageYOffset;
@@ -70,8 +75,18 @@ const Navbar = ({ setShowLogin }) => {
           <Link to='/cart' ><img src={assets.basket_icon} alt="" /></Link>
           {getTotalCartAmount() > 0 ? <div className="dot"></div> : null}
         </div>
-        <button onClick={() => setShowLogin(true)}>sign in</button>
+        {!token? 
+          <button onClick={() => setShowLogin(true)}>sign in</button>:
+          <div className="navbar-profile">
+            <img src={assets.profile_icon} alt="" />
+            <ul className='nav-profile-dropdown'>
+              <li> <img src={assets.bag_icon} alt="" /><p>Orders</p></li>
+              <hr />
+              <li onClick={logout}> <img src={assets.logout_icon} alt="" /><p>Logout</p></li>
+            </ul>
+          </div>
 
+        }
       </div>
     </div>
   )
