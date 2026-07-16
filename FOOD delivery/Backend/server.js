@@ -1,27 +1,24 @@
 import express from 'express'
 import cors from 'cors'
-import 'dotenv/config'
 import dotenv from 'dotenv'
 import { connectDB } from './config/db.js';
-import dns from 'dns'
 import foodRouter from './routes/foodRoute.js';
 import userRouter from './routes/userRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 
-dns.setServers(['1.1.1.1','8.8.8.8']);
 dotenv.config();
 
-
 //app config
-
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
-//middle ware
-
-app.use(express.json()) 
-app.use(cors()) // access backend from any content
+//middleware
+app.use(express.json())
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',')
+  : ['http://localhost:5173', 'http://localhost:5174'];
+app.use(cors({ origin: allowedOrigins, credentials: true }))
 
 //add db connection
 connectDB();
@@ -35,14 +32,13 @@ app.use("/api/user",userRouter);
 
 app.use("/api/cart",cartRouter);
 
-app.use("api/order",orderRouter);
+app.use("/api/order",orderRouter);
 
 
 app.get("/",(req,res)=>{
    res.send("API working")
 })
 
-app.listen(port,(req,res)=>{
-    console.log(`Server Started on http://localhost:${port}`)
+app.listen(port, '0.0.0.0', () => {
+     console.log(`Server Started on port ${port}`)
 });
-

@@ -1,4 +1,4 @@
-git # Dependencies
+# Dependencies
 node_modules/
 
 # Environment variables

@@ -1,6 +1,6 @@
-import { placeOrder , verifyOrder ,userOrders} from "../controllers/orderController";
+import { placeOrder , verifyOrder ,userOrders} from "../controllers/orderController.js";
 import express from "express";
-import authMiddleware from "../middleware/auth";
+import authMiddleware from "../middleware/auth.js";
 
 
 

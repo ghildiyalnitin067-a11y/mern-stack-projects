@@ -6,7 +6,7 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
-    const url = "http://localhost:4000"
+    const url = import.meta.env.VITE_API_URL || "http://localhost:4000"
     const [token, setToken] = useState("");
     const [food_list,setFoodList] = useState([]);
 
@@ -17,7 +17,7 @@ const StoreContextProvider = (props) => {
     }
 
     const loadCartData = async (token) =>{
-        const response = await axios.post(url+"/api/cart/get",{},{header:{token}});
+        const response = await axios.post(url+"/api/cart/get",{},{headers:{token}});
          setCartItems(response.data.cartData);
     }
 
@@ -84,9 +84,7 @@ const StoreContextProvider = (props) => {
     };
 
 
-    useEffect(() => {
-        console.log(cartItems);
-    }, [cartItems])
+    // cart items debug logging removed for production
 
     const contextValue = {
         food_list,

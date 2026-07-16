@@ -1,4 +1,4 @@
-import React, { useContext, } from 'react'
+import React, { useContext, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios';
@@ -23,7 +23,7 @@ const PlaceOrder = () => {
      food_list.map((item)=>{
       if(cartItems[item._id]>0){
         let item_info = item;
-        itemInfo["quantity"] = cartItems[item._id];
+        item_info["quantity"] = cartItems[item._id];
         orderItems.push(item_info);
       }
      })
