@@ -9,6 +9,7 @@ const StoreContextProvider = (props) => {
     const url = import.meta.env.VITE_API_URL || "http://localhost:4000"
     const [token, setToken] = useState("");
     const [food_list,setFoodList] = useState([]);
+    const [tokenReady, setTokenReady] = useState(false);
 
 
     const fetchFoodList = async ()=>{
@@ -24,10 +25,12 @@ const StoreContextProvider = (props) => {
     useEffect(()=>{
         async function loadData(){
             await fetchFoodList();
-             if(localStorage.getItem("token")){
-            setToken(localStorage.getItem("token"))
-             await loadCartData(localStorage.getItem("token"));
-        }
+            const storedToken = localStorage.getItem("token");
+            if(storedToken){
+                setToken(storedToken);
+                await loadCartData(storedToken);
+            }
+            setTokenReady(true);
         }
         loadData();
     },[])
@@ -95,7 +98,8 @@ const StoreContextProvider = (props) => {
         getTotalCartAmount,
         url,
         token,
-        setToken
+        setToken,
+        tokenReady
     };
 
     return (
