@@ -47,7 +47,11 @@ const List = ({url}) => {
                     {list.map((item,index)=>{
                         return(
                             <div className="list-table-format" key={index}>
-                                <img src={`${url}/images/`+item.image} alt="" />
+                                <img 
+                                    src={item.image.startsWith("http") ? item.image : `${url}/images/`+item.image} 
+                                    alt="" 
+                                    onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150"; }}
+                                />
                                 <p>{item.name}</p>
                                 <p>{item.category}</p>
                                 <p>${item.price}</p>
