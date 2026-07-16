@@ -56,20 +56,20 @@ const PlaceOrder = () => {
         <div className="place-order-left">
            <p className='title'>Delivery Information</p>
            <div className="multi-fields">
-               <input  name='firstName' onChange={onChangeHandler} value={data.firstName} type="text" placeholder = 'first name' />
-               <input name='lastName' onChange={onChangeHandler} value={data.lastName} type="text"  placeholder = 'last name'/>
+               <input required name='firstName' onChange={onChangeHandler} value={data.firstName} type="text" placeholder='First name' />
+               <input required name='lastName' onChange={onChangeHandler} value={data.lastName} type="text" placeholder='Last name'/>
            </div>
-           <input name='email' onChange={onChangeHandler} value={data.email} type="text" placeholder='Email address'/>
-           <input name='street' onChange={onChangeHandler} value={data.street} type="text" placeholder='Street'/>
+           <input required name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email address'/>
+           <input required name='street' onChange={onChangeHandler} value={data.street} type="text" placeholder='Street'/>
              <div className="multi-fields">
-               <input name='state' onChange={onChangeHandler} value={data.state} type="text" placeholder = 'State' />
-               <input name='city' onChange={onChangeHandler} value={data.city} type="text"  placeholder = 'City'/>
+               <input required name='state' onChange={onChangeHandler} value={data.state} type="text" placeholder='State' />
+               <input required name='city' onChange={onChangeHandler} value={data.city} type="text" placeholder='City'/>
            </div>
              <div className="multi-fields">
-               <input name='zipCode' onChange={onChangeHandler} value={data.zipCode} type="text" placeholder = 'Zip code' />
-               <input name='country' onChange={onChangeHandler} value={data.country} type="text"  placeholder = 'Country'/>
+               <input required name='zipCode' onChange={onChangeHandler} value={data.zipCode} type="text" placeholder='Zip code' />
+               <input required name='country' onChange={onChangeHandler} value={data.country} type="text" placeholder='Country'/>
            </div>
-           <input name='phone' onChange={onChangeHandler} value={data.phone} type="text" placeholder='Phone' />
+           <input required name='phone' onChange={onChangeHandler} value={data.phone} type="tel" placeholder='Phone' />
         </div>
         <div className="place-order-right">
             <div className="cart-total">
