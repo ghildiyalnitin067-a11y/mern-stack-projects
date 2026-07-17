@@ -11,5 +11,37 @@
     margin-top: 30px;
     gap: 50px;
     row-gap: 50px;
-
 }
+
+/* Tablet — 3 columns with tighter gap */
+@media (max-width: 900px) {
+    .food-display-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        row-gap: 24px;
+    }
+}
+
+/* Mobile — 2 columns, compact */
+@media (max-width: 600px) {
+    .food-display {
+        margin-top: 16px;
+    }
+    .food-display h2 {
+        font-size: 20px;
+    }
+    .food-display-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        row-gap: 16px;
+        margin-top: 16px;
+    }
+}
+
+/* Very small phones — 2 tight columns */
+@media (max-width: 380px) {
+    .food-display-list {
+        gap: 8px;
+        row-gap: 12px;
+    }
+}
