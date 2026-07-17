@@ -61,3 +61,23 @@
         padding: 2vw 4vw;
     }
 }
+
+@media (max-width:480px){
+    .header {
+        height: 50vw;
+        background-size: cover;
+        background-position: center;
+    }
+    .header-contents{
+        max-width: 80%;
+        left: 4vw;
+        bottom: 8%;
+    }
+    .header-contents h2 {
+        font-size: max(5vw, 20px);
+    }
+    .header-contents button {
+        padding: 3vw 5vw;
+        font-size: max(3vw, 11px);
+    }
+}

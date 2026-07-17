@@ -3,6 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    position: relative;
 }
 
 .navbar .logo{
@@ -90,6 +92,50 @@
     right: -8px;
 }
 
+/* Hamburger button — hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background-color: #49557e;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+/* Mobile slide-down menu */
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 10px;
+    border-top: 1px solid #e5e5e5;
+    animation: fadeIn 0.2s ease;
+    font-size: 17px;
+    color: #49557e;
+}
+
+.mobile-menu a,
+.mobile-menu p {
+    cursor: pointer;
+    color: #49557e;
+    margin: 0;
+}
+
+.mobile-menu .active {
+    border-bottom: 2px solid #49557e;
+    padding-bottom: 2px;
+}
+
 @media(max-width:1050px){
     .navbar .logo{
         width: 140px;
@@ -128,10 +174,32 @@
         font-size: 15px;
     }
 }
+
 @media(max-width:750px){
     .navbar-menu{
         display: none;
     }
-    
+    .hamburger {
+        display: flex;
+    }
+    .navbar-right {
+        gap: 16px;
+    }
+    .navbar button {
+        padding: 7px 16px;
+        font-size: 14px;
+    }
 }
 
+@media(max-width:480px){
+    .navbar .logo{
+        width: 100px;
+    }
+    .navbar-right {
+        gap: 12px;
+    }
+    .navbar button {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}

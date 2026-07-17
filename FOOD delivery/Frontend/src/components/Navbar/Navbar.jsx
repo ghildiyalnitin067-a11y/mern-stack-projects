@@ -60,6 +60,8 @@ const Navbar = ({ setShowLogin }) => {
     }
   };
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className='navbar'>
       <Link to='/'><img src={assets.logo} alt="" className="logo" /></Link>
@@ -87,7 +89,21 @@ const Navbar = ({ setShowLogin }) => {
           </div>
 
         }
+        <div className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="mobile-menu">
+          <Link to='/' onClick={() => { setMenu("home"); setMobileMenuOpen(false); }} className={menu == "home" ? "active" : ""}>Home</Link>
+          <p onClick={() => { scrollToSection('explore-menu', 'menu'); setMobileMenuOpen(false); }} className={menu == "menu" ? "active" : ""}>Menu</p>
+          <p onClick={() => { scrollToSection('app-download', 'mobile-app'); setMobileMenuOpen(false); }} className={menu == "mobile-app" ? "active" : ""}>Mobile App</p>
+          <p onClick={() => { scrollToSection('footer', 'contact-us'); setMobileMenuOpen(false); }} className={menu == "contact-us" ? "active" : ""}>Contact Us</p>
+        </div>
+      )}
     </div>
   )
 }

@@ -67,3 +67,19 @@
     font-size: 10px;
   }
 }
+
+@media (max-width: 480px) {
+  .my-orders-order {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    font-size: 13px;
+    padding: 14px 14px;
+  }
+  .my-orders-order img {
+    width: 40px;
+  }
+  .my-orders-order button {
+    font-size: 12px;
+    padding: 10px;
+  }
+}

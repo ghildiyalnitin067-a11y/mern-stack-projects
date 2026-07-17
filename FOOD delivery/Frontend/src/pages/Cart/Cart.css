@@ -358,3 +358,17 @@
     font-size: 56px;
   }
 }
+
+@media (max-width: 360px) {
+  .cart-items {
+    padding: 12px 10px;
+    overflow-x: auto;
+  }
+  .cart-items-title,
+  .cart-items-item.cart-items-title {
+    min-width: 480px;
+  }
+  .cart-items > div {
+    min-width: 480px;
+  }
+}
