@@ -13,12 +13,12 @@
     row-gap: 50px;
 }
 
-/* Tablet — 3 columns with tighter gap */
+/* Tablet — 2 columns with tighter gap */
 @media (max-width: 900px) {
     .food-display-list {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        row-gap: 24px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        row-gap: 20px;
     }
 }
 
@@ -33,15 +33,16 @@
     .food-display-list {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        row-gap: 16px;
+        row-gap: 14px;
         margin-top: 16px;
     }
 }
 
-/* Very small phones — 2 tight columns */
+/* Very small phones */
 @media (max-width: 380px) {
     .food-display-list {
         gap: 8px;
-        row-gap: 12px;
+        row-gap: 10px;
     }
-}
+}
+
