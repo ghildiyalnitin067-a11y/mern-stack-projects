@@ -38,6 +38,10 @@ const AdminDashboard = ({ onLogout }) => {
         apiFetch('/api/admin/revenue')
       ])
 
+      if (statsRes.status === 401 || bookingsRes.status === 401) {
+        return false
+      }
+
       if (statsRes.ok && bookingsRes.ok && usersRes.ok) {
         const statsData = await statsRes.json()
         const bookingsData = await bookingsRes.json()
@@ -55,6 +59,7 @@ const AdminDashboard = ({ onLogout }) => {
         })
         setBookings(bookingsData)
         setUsers(usersData)
+        return true
       }
     } catch (err) {
       console.error('Error fetching admin data:', err)
@@ -65,7 +70,12 @@ const AdminDashboard = ({ onLogout }) => {
 
   useEffect(() => {
     fetchAdminData()
-    const timer = setInterval(fetchAdminData, 10000)
+    const timer = setInterval(async () => {
+      const result = await fetchAdminData()
+      if (result === false) {
+        clearInterval(timer)
+      }
+    }, 10000)
     return () => clearInterval(timer)
   }, [])
 

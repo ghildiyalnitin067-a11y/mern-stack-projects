@@ -32,21 +32,31 @@ const CustomerDashboard = ({ user }) => {
       if (res.ok) {
         const data = await res.json()
         setBookings(data)
+        return true
+      } else if (res.status === 401) {
+        return false
       }
     } catch (err) {
       console.error(err)
-      toast.error('Failed to load bookings log')
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
+    if (!user || !user._id) return
+
     fetchBookings()
 
-    const timer = setInterval(fetchBookings, 6000)
+    const timer = setInterval(async () => {
+      const result = await fetchBookings()
+      if (result === false) {
+        clearInterval(timer)
+      }
+    }, 10000)
+
     return () => clearInterval(timer)
-  }, [])
+  }, [user])
 
 
   const handleSaveProfile = async (e) => {

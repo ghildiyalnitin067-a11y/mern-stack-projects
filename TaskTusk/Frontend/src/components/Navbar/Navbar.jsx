@@ -24,17 +24,16 @@ const Navbar = ({ user, onLogout }) => {
         const res = await apiFetch('/api/provider/bookings')
         if (res.ok) {
           const bookings = await res.json()
-
           const pending = bookings.filter(b => b.status === 'pending').length
           setUnreadCount(pending)
         }
       } catch (err) {
-
+        // Silently ignore network errors in polling
       }
     }
 
     fetchNotifications()
-    const timer = setInterval(fetchNotifications, 5000)
+    const timer = setInterval(fetchNotifications, 10000)
     return () => clearInterval(timer)
   }, [user])
 

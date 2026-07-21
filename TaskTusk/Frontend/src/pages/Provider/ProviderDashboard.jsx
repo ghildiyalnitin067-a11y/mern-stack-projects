@@ -50,6 +50,9 @@ const ProviderDashboard = ({ user }) => {
       if (res.ok) {
         const data = await res.json()
         setBookings(data)
+        return true
+      } else if (res.status === 401) {
+        return false
       }
     } catch (err) {
       console.error('Error fetching bookings:', err)
@@ -58,11 +61,9 @@ const ProviderDashboard = ({ user }) => {
     }
   }
 
-
   const fetchServices = async () => {
     setLoadingServices(true)
     try {
-
       const res = await apiFetch(`/api/provider/services`)
       if (res.ok) {
         const data = await res.json()
@@ -77,15 +78,14 @@ const ProviderDashboard = ({ user }) => {
   }
 
   useEffect(() => {
+    if (!user || !user._id) return
+
     fetchBookings()
     fetchServices()
 
-
     const socket = io(API_BASE)
 
-
     socket.emit('join', user._id)
-
 
     socket.on('payment_confirmed', (data) => {
       console.log('Realtime Notification Received:', data)
@@ -95,13 +95,18 @@ const ProviderDashboard = ({ user }) => {
       fetchBookings()
     })
 
+    const timer = setInterval(async () => {
+      const result = await fetchBookings()
+      if (result === false) {
+        clearInterval(timer)
+      }
+    }, 10000)
 
-    const timer = setInterval(fetchBookings, 6000)
     return () => {
       clearInterval(timer)
       socket.disconnect()
     }
-  }, [user._id])
+  }, [user])
 
 
   const handleSaveProfile = async (e) => {
