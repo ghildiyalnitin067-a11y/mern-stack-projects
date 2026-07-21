@@ -1,6 +1,7 @@
 import './Footer.css'
 import { Link } from 'react-router-dom'
 import { Globe, Share2, Send } from 'lucide-react'
+import logo from '../../assets/logo1.png'
 
 export default function Footer() {
   const handleSubmit = (e) => {
@@ -13,7 +14,7 @@ export default function Footer() {
 
         <div className="footer__grid">
           <div className="footer__col footer__col--brand">
-            <span className="footer__logo">TaskTusk</span>
+            <img src={logo} alt="TaskTusk Logo" style={{ height: '40px', objectFit: 'contain' }} className="footer__logo" />
             <p className="footer__desc">
               Connecting local expertise with immediate needs through a trusted platform.
             </p>

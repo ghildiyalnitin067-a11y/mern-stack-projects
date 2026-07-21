@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { apiFetch } from '../api'
+import logo from '../assets/logo1.png'
 import './AdminDashboard.css'
 
 const AdminDashboard = ({ onLogout }) => {
@@ -170,7 +171,7 @@ const AdminDashboard = ({ onLogout }) => {
         <div className="admin-banner__container">
           <div className="admin-banner__info">
             <span className="admin-badge">
-              <ShieldAlert size={14} /> Admin Dashboard
+              <img src={logo} alt="TaskTusk Logo" style={{ height: '24px', objectFit: 'contain' }} />
             </span>
             <h1>Admin Dashboard</h1>
             <p>Monitor platform services, providers, bookings, and analytics.</p>

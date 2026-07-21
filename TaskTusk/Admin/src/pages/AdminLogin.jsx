@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ShieldAlert, Key, Mail } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { apiFetch } from '../api'
+import logo from '../assets/logo1.png'
 import './AdminLogin.css'
 
 const AdminLogin = ({ onLoginSuccess }) => {
@@ -50,7 +51,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
       <div className="admin-login-card">
         <div className="admin-login-card__header">
           <div className="admin-logo-circle">
-            <ShieldAlert size={28} />
+            <img src={logo} alt="Admin Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
           </div>
           <h2>Admin Login</h2>
           <p>Please sign in to the admin dashboard.</p>

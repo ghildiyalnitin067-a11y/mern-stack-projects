@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Briefcase, LogOut, LayoutDashboard, User } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { apiFetch } from '../../api'
+import logo from '../../assets/logo1.png'
 import './Navbar.css'
 
 const Navbar = ({ user, onLogout }) => {
@@ -47,7 +48,7 @@ const Navbar = ({ user, onLogout }) => {
         <div className="navbar__container">
           <div className="navbar__left">
             <Link to="/" className="navbar__logo">
-              TaskTusk
+              <img src={logo} alt="TaskTusk Logo" style={{ height: '40px', objectFit: 'contain' }} />
             </Link>
 
             <div className="navbar__links">
