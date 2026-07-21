@@ -23,7 +23,7 @@ const TESTIMONIALS = [
     id: 3,
     name: 'Priya Sharma',
     role: 'First-time Homeowner',
-    quote: '"I used TaskTusk for my apartment renovation and it was seamless. Every provider showed up on time, did great work, and the payment was completely secure."',
+    quote: '"I used TaskTusk for my apartment renovation and it was great. Every provider showed up on time, did great work, and the payment was completely secure."',
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBmGkgLv5z7NQaOjIBxoxu5WnKjW2-rzq6n7LcsbqkqIlDyybiCz6rN6C5kmxECkWDP1brafw7kHiuGc3C_6T0pnqcI8DhH_cID_306zFg8VotMn6L0-bwX5o_IMSXrTHIgeZ_yNQDdPyNAjf_ozb_LjxOR3aaQHnzZ4fP4MIRf3VT9JFHSvjm7gkkc6455JNceX6vcKzlV-ZMT0Ww2Aa3Znrzdrt0xE_RVOBY6nZLhrIHdWwWshyvioQ',
     stars: 5,
   },
@@ -41,7 +41,7 @@ export default function Testimonials() {
   return (
     <main className="testimonials-page">
       <div className="section-container">
-        
+
         <header className="testimonials-page__header">
           <Link to="/" className="back-link">
             <ArrowLeft size={16} /> Back to Home

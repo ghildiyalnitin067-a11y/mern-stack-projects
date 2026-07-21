@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import CountUpRaw from 'react-countup'
 const CountUp = typeof CountUpRaw === 'function' ? CountUpRaw : (CountUpRaw.default || CountUpRaw)
 import {
-  Search, Wrench, Zap, Sparkles, GraduationCap, Hammer, Leaf,
-  Star, Clock, MapPin, ArrowRight, ShieldCheck, Globe, Share2,
-  ChevronDown,
+  Search, Wrench, Zap, Sparkles, Snowflake, Hammer, Scissors,
+  Star, MapPin, ShieldCheck, ChevronDown, Clock, ChevronRight
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-
+import { apiFetch } from '../../api'
 import './Home.css'
 
 const ease = [0.22, 1, 0.36, 1]
@@ -42,63 +42,56 @@ const CATEGORIES = [
   { icon: Wrench,        label: 'Plumbing' },
   { icon: Zap,           label: 'Electrical' },
   { icon: Sparkles,      label: 'Cleaning' },
-  { icon: GraduationCap, label: 'Tutoring' },
+  { icon: Snowflake,     label: 'AC Repair & Service' },
   { icon: Hammer,        label: 'Carpentry' },
-  { icon: Leaf,          label: 'Gardening' },
+  { icon: Scissors,      label: 'Salon & Beautician' },
 ]
 
-const PROVIDERS = [
-  {
-    id: 1,
-    name: 'Elena Rodriguez',
-    service: 'Premium Home Cleaning',
-    rating: '5.0',
-    available: 'Available Today',
-    distance: '2.4 miles',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP_mTWQGeBZ6Vr-y90OqRs8_aSejijFq6uUJ9q_3d3VCMrVA8ALr6d9aRNCsAFI4suu3HQNJaZK79XsGo5kVFkVBMf9i2rFcEHR_RbzV827O4tqSoyr08nziDh43o-mpqrkQ6fFjFL-thsKN04O2A-1zK1rNYesrdZDHnN4-r1l3dexmAUbPury4n5SkX2SPB_iwt9UDnkMejb5HOiODZWS2ozPXIoMUxc5_gzYYQZaqBSBk6qbxaunw',
-  },
-  {
-    id: 2,
-    name: 'Dr. James Wilson',
-    service: 'Mathematics & Physics Tutor',
-    rating: '4.9',
-    available: 'Next: Mon 2 PM',
-    distance: 'Online / In-person',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBnYNaQn79aOJyolhvsUozCu0IOHYruu3FheNA1WuKOKh5tWHLWbRcK_Sk5RM_ynxsh7Py_ezv5OsMKFGpr0zOm975yregkCF1MEW2qDTLPS4OjiERGQ4_Kpo0R-nU9g4GKIJ7q7Q1VOnGSG7EgljJkD5Dwct40qjhxNwjsmNelOG9Lz-zwKjGsPBbOopWHi1tshrk4Tu8IaYx4_TBaIIm6-4Hjtx6ZGHHUTtCStBTXcDcdfdqTDM5YHA',
-  },
-  {
-    id: 3,
-    name: 'Mark Thompson',
-    service: 'Certified Electrician',
-    rating: '4.8',
-    available: 'Emergency 24/7',
-    distance: '5.1 miles',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCGuV00TTh4RZQeXTTYOZaDUDGvWtwf5xLBJBfDcAEgZSvqMzQHs9-K4plJjuwDCmjqkAp-_fRZxGMXYCJG9T1e5dnagjbY-p2ZaNxc60LTjHRs-yEN_zxRTXHmAaTGBfqFV1WKet7C5yDSSYJYjmQTIBLHyS-bel3qiGq05zx3rURTdShyfEqwxM7ZFSAtQECkl6YvWou3ZdPBGN7xBfn79htwJKoOrdnfwes3napQQ0_YDYLFe-lV0g',
-  },
-]
-
-const Home = () => {
+const Home = ({ user }) => {
+  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
+  const [services, setServices] = useState([])
+  const [loading, setLoading] = useState(true)
+
+
+  const fetchFeaturedServices = async () => {
+    setLoading(true)
+    try {
+      const res = await apiFetch('/api/customer/services')
+      if (res.ok) {
+        const data = await res.json()
+        setServices(data.slice(0, 6))
+      } else {
+        toast.error('Failed to load services')
+      }
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchFeaturedServices()
+  }, [])
 
   const handleSearch = (e) => {
     e.preventDefault()
-    if (!searchQuery.trim()) {
-      toast.error('Please enter a service to search for')
-      return
+    if (searchQuery.trim()) {
+      navigate(`/services?q=${encodeURIComponent(searchQuery)}`)
+    } else {
+      navigate(`/services`)
     }
-    toast.loading(`Finding "${searchQuery}" providers near you…`, { duration: 2200 })
   }
 
-  const handleBook = (name) => {
-    toast.success(`Booking request sent to ${name}! 🎉`)
-  }
+  const handleCategorySelect = (category) => {
 
-  const handleJoinProvider = () => {
-    toast.success(`Welcome! Let's get you set up as a provider.`, { icon: '🚀' })
+    navigate(`/services`)
   }
 
   return (
     <main>
+
       <section className="hero" aria-label="Hero">
         <div className="hero__grid">
           <motion.div
@@ -109,7 +102,7 @@ const Home = () => {
           >
             <motion.span variants={heroItemVariants} className="hero__eyebrow">
               <ShieldCheck size={15} />
-              Trusted by 50,000+ customers
+              India's Most Trusted Home Services
             </motion.span>
 
             <motion.h1 variants={heroItemVariants} className="hero__headline">
@@ -118,8 +111,8 @@ const Home = () => {
             </motion.h1>
 
             <motion.p variants={heroItemVariants} className="hero__desc">
-              Connect with local, verified service professionals for everything
-              from emergency plumbing to academic tutoring.
+              Connect with local, verified service professionals in India. AC repair,
+              deep cleaning, plumbing, beauty services, and more at fixed prices.
             </motion.p>
 
             <motion.form
@@ -133,7 +126,7 @@ const Home = () => {
                 id="hero-search"
                 type="text"
                 className="search-bar__input"
-                placeholder="What do you need help with?"
+                placeholder="Search for plumber, cleaner, beautician..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Search for a service"
@@ -157,7 +150,7 @@ const Home = () => {
                     className="category-pill"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => toast(`Browsing ${label} services…`, { icon: '🔍' })}
+                    onClick={() => handleCategorySelect(label)}
                     aria-label={`Browse ${label}`}
                   >
                     <Icon size={16} />
@@ -179,38 +172,38 @@ const Home = () => {
               <div className="bento-provider__top">
                 <div className="bento-provider__avatar">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_4K1Nc2muPe-aL3hccgZBnUDZvzltRXMEJ1ZyEH3foXcBHyyIBfyS7TnZlIUcRR2QKUnq5NNuRZvUNu_Mds9HcF0S1DH0ez7FTkXWsJZzM8Ulg5dbx2P0_M2IzKa-pqQuBVhGlKNMA5Jrcrd3-gzwosxtwzFs0XqKeli2hVhtq56CuqfkzFKIbyA6ZLDeQ1v0CEERDDDMjFejmbDHWInEFFD9YyeY5_Nf04sJYNy0UnCXxX6sDqshsA"
-                    alt="David Miller"
+                    src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=200&auto=format&fit=crop"
+                    alt="Rajesh Kumar"
                   />
                 </div>
                 <div>
-                  <h3 className="bento-provider__name">David Miller</h3>
-                  <p className="bento-provider__role">Master Plumber · 12 yrs exp.</p>
+                  <h3 className="bento-provider__name">Rajesh Kumar</h3>
+                  <p className="bento-provider__role">AC Specialist · 8 yrs exp.</p>
                 </div>
                 <div className="bento-provider__rating">
                   <Star size={17} fill="currentColor" strokeWidth={0} />
-                  4.9 (248 reviews)
+                  4.8 (142 reviews)
                 </div>
               </div>
               <p className="bento-provider__review">
-                "Fixed my leaking pipe in under an hour. Very professional and clean!"
+                "Repaired my split AC condenser fast and clean. Charge was ₹349. Highly recommended!"
               </p>
             </div>
 
             <div className="bento-stat">
               <span className="bento-stat__number">
-                <CountUp end={15} suffix="k+" duration={2.5} enableScrollSpy scrollSpyOnce />
+                <CountUp end={5} suffix="k+" duration={2.5} enableScrollSpy scrollSpyOnce />
               </span>
-              <p className="bento-stat__label">Verified Pros</p>
+              <p className="bento-stat__label">Verified Services</p>
             </div>
 
             <div className="bento-image">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuALdfc2SyqSfEeSUqleW-WYkGAWBCf34oOqIHwmBInKKv3jdcALw3cLJRmyNIqlSAZ5fKa32yv8huvViEeoXlPClHGMaZZXfju1YV6HNNcZrGpLG7Be10kTix64En7Ax3ng6v9uZQmSogCmRhOYXJ5PeMYuPiaojtTXwi2NorlJTWDb-FiNKCGoSQk8ryjWj4vkQyw4c0uXs65fTHWJb89FjcKD-OsUQHdt3yodhbz2H3ziIeteZ1Vuqw"
-                alt="Electrical tools"
+                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=300&auto=format&fit=crop"
+                alt="Cleaning service in India"
               />
               <div className="bento-image__overlay">
-                <p>Trusted Electrical Solutions</p>
+                <p>Premium Home Cleaning</p>
               </div>
             </div>
           </motion.div>
@@ -226,7 +219,8 @@ const Home = () => {
         </motion.div>
       </section>
 
-      <section className="providers-section" id="services" aria-label="Top-rated providers">
+
+      <section className="providers-section" id="services" aria-label="Available services">
         <div className="section-container">
           <motion.div
             className="section-header"
@@ -236,73 +230,89 @@ const Home = () => {
             transition={{ duration: 0.55, ease }}
           >
             <div>
-              <h2 className="section-title">Top-Rated Pros Nearby</h2>
-              <p className="section-subtitle">Hand-picked providers with exceptional track records.</p>
+              <h2 className="section-title">Featured Service Listings</h2>
+              <p className="section-subtitle">
+                Fixed-price services from verified local experts.
+              </p>
             </div>
-            <a href="#" className="view-all-link">
-              View all providers <ArrowRight size={16} />
-            </a>
+            <Link to="/services" className="view-all-link">
+              Explore All Services <ChevronRight size={16} />
+            </Link>
           </motion.div>
 
-          <motion.div
-            className="providers__grid"
-            variants={cardContainerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-          >
-            {PROVIDERS.map((p) => (
-              <motion.article
-                key={p.id}
-                className="provider-card"
-                variants={cardVariants}
-                whileHover={{ y: -6, boxShadow: '0 12px 32px rgba(9,28,53,0.14)' }}
-                transition={{ duration: 0.25 }}
-              >
-                <div className="provider-card__img-wrap">
-                  <img src={p.image} alt={p.name} />
-                  <span className="verified-badge">
-                    <span className="verified-badge__dot"></span>
-                    Verified
-                  </span>
-                </div>
-
-                <div className="provider-card__body">
-                  <div className="provider-card__top">
-                    <div>
-                      <h3 className="provider-card__name">{p.name}</h3>
-                      <p className="provider-card__service">{p.service}</p>
-                    </div>
-                    <div className="provider-card__rating">
-                      <Star size={13} fill="currentColor" strokeWidth={0} />
-                      {p.rating}
-                    </div>
-                  </div>
-
-                  <div className="provider-card__meta">
-                    <span className="provider-card__meta-row">
-                      <Clock size={14} /> {p.available}
-                    </span>
-                    <span className="provider-card__meta-row">
-                      <MapPin size={14} /> {p.distance}
+          {loading ? (
+            <div className="loading-state">
+              <div className="spinner"></div>
+              <p>Fetching active catalog listings...</p>
+            </div>
+          ) : (
+            <motion.div
+              className="providers__grid"
+              variants={cardContainerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+            >
+              {services.map((s) => (
+                <motion.article
+                  key={s._id}
+                  className="provider-card"
+                  variants={cardVariants}
+                  whileHover={{ y: -6, boxShadow: '0 12px 32px rgba(9,28,53,0.14)' }}
+                  transition={{ duration: 0.25 }}
+                  onClick={() => navigate(`/service/${s._id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="provider-card__img-wrap">
+                    <img src={s.image || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=200&auto=format&fit=crop"} alt={s.title} />
+                    <span className="verified-badge">
+                      <span className="verified-badge__dot"></span>
+                      Verified
                     </span>
                   </div>
 
-                  <motion.button
-                    className="provider-card__btn"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => handleBook(p.name)}
-                    aria-label={`Book ${p.name}`}
-                  >
-                    Book Service
-                  </motion.button>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
+                  <div className="provider-card__body">
+                    <div className="provider-card__top">
+                      <div>
+                        <h4 className="provider-card__service">{s.providerName}</h4>
+                        <h3 className="provider-card__name" style={{ marginTop: '2px', fontSize: '16px' }}>{s.title}</h3>
+                        <p className="provider-card__category" style={{ fontSize: '12px', color: 'var(--outline)', marginTop: '2px' }}>{s.category}</p>
+                      </div>
+                      <div className="provider-card__rating">
+                        <Star size={13} fill="currentColor" strokeWidth={0} />
+                        {s.rating ? s.rating.toFixed(1) : '5.0'}
+                      </div>
+                    </div>
+
+                    <div className="provider-card__meta">
+                      <p className="provider-desc-truncate" style={{ fontSize: '13px', color: 'var(--on-surface-variant)', height: '40px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {s.description}
+                      </p>
+                      <span className="provider-card__price-tag" style={{ display: 'block', marginTop: '10px' }}>
+                        ₹{s.price} <span className="price-unit">/ visit</span>
+                      </span>
+                    </div>
+
+                    <motion.button
+                      className="provider-card__btn"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        navigate(`/service/${s._id}`)
+                      }}
+                      aria-label={`View details of ${s.title}`}
+                    >
+                      View Details &amp; Book
+                    </motion.button>
+                  </div>
+                </motion.article>
+              ))}
+            </motion.div>
+          )}
         </div>
       </section>
+
 
       <section className="cta-section" aria-label="Join as a provider">
         <div className="section-container">
@@ -317,28 +327,19 @@ const Home = () => {
 
             <div className="cta-banner__text">
               <h2 className="cta-banner__headline">
-                Ready to grow your service business?
+                Grow your services business in India
               </h2>
               <p className="cta-banner__desc">
-                Join thousands of professionals earning more through TaskTusk.
-                Set your own rates, choose your schedule, and get paid securely.
+                Register as an AC specialist, cleaning partner, electrician, or beautician to receive
+                local booking requests. Set your rates, choose your schedule, and get paid securely.
               </p>
               <div className="cta-banner__actions">
-                <motion.button
-                  className="cta-btn cta-btn--green"
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={handleJoinProvider}
-                >
-                  Join as a Provider
-                </motion.button>
-                <motion.button
-                  className="cta-btn cta-btn--outline"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  Learn How It Works
-                </motion.button>
+                <Link to="/signup" className="cta-btn cta-btn--green">
+                  Register as a Partner
+                </Link>
+                <Link to="/login" className="cta-btn cta-btn--outline">
+                  Partner Log In
+                </Link>
               </div>
             </div>
 
@@ -354,28 +355,26 @@ const Home = () => {
                 </div>
                 <div>
                   <p className="cta-lead-card__tag">New Lead</p>
-                  <p className="cta-lead-card__title">Kitchen Faucet Repair</p>
+                  <p className="cta-lead-card__title">Bathroom Leakage Repair</p>
                 </div>
               </div>
 
               <div className="cta-lead-card__details">
                 <div className="cta-lead-card__row">
-                  <span>Est. Earnings</span>
-                  <span className="cta-lead-card__value">$120.00</span>
+                  <span>Fixed Payout</span>
+                  <span className="cta-lead-card__value">₹249.00</span>
                 </div>
                 <div className="cta-lead-card__row">
                   <span>Distance</span>
-                  <span>1.5 miles away</span>
+                  <span>1.2 km away</span>
                 </div>
               </div>
 
-              <button className="cta-lead-card__accept">Accept Task</button>
+              <button className="cta-lead-card__accept">Accept Job</button>
             </motion.div>
           </motion.div>
         </div>
       </section>
-
-      
     </main>
   )
 }

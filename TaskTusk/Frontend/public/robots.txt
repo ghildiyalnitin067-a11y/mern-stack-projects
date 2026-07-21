@@ -1,0 +1,14 @@
+# TaskTusk Robots.txt
+User-agent: *
+Allow: /
+Allow: /services
+Allow: /testimonials
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+
+Disallow: /customer/
+Disallow: /provider/
+Disallow: /checkout/
+
+Sitemap: https://tasktusk.com/sitemap.xml

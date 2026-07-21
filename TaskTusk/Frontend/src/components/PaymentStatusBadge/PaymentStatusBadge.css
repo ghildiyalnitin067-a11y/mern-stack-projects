@@ -1,0 +1,36 @@
+.payment-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.payment-status-badge.badge-pending {
+  background-color: #fff8e1;
+  color: #b7791f;
+  border: 1px solid #ffe082;
+}
+
+.payment-status-badge.badge-paid {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #c2e7c9;
+}
+
+.payment-status-badge.badge-failed {
+  background-color: #fce8e6;
+  color: #c5221f;
+  border: 1px solid #fad2cf;
+}
+
+.payment-status-badge.badge-refunded {
+  background-color: #f1f3f4;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+}

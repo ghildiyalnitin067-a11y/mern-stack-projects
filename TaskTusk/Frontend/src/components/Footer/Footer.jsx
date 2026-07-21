@@ -1,4 +1,5 @@
 import './Footer.css'
+import { Link } from 'react-router-dom'
 import { Globe, Share2, Send } from 'lucide-react'
 
 export default function Footer() {
@@ -9,12 +10,12 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="section-container">
-        
+
         <div className="footer__grid">
           <div className="footer__col footer__col--brand">
             <span className="footer__logo">TaskTusk</span>
             <p className="footer__desc">
-              Connecting local expertise with immediate needs through a seamless, trusted platform.
+              Connecting local expertise with immediate needs through a trusted platform.
             </p>
             <div className="footer__social">
               <a href="#" className="footer__social-btn" aria-label="Website">
@@ -29,20 +30,18 @@ export default function Footer() {
           <div className="footer__col">
             <h4 className="footer__header">Platform</h4>
             <nav className="footer__links">
-              <a href="#" className="footer__link">Find Services</a>
-              <a href="#" className="footer__link">Become a Provider</a>
-              <a href="#" className="footer__link">Pricing</a>
-              <a href="#" className="footer__link">Safety</a>
+              <Link to="/services" className="footer__link">Find Services</Link>
+              <Link to="/signup" className="footer__link">Become a Provider</Link>
+              <Link to="/contact" className="footer__link">Support</Link>
             </nav>
           </div>
 
           <div className="footer__col">
             <h4 className="footer__header">Company</h4>
             <nav className="footer__links">
-              <a href="#" className="footer__link">About Us</a>
-              <a href="#" className="footer__link">Support</a>
-              <a href="#" className="footer__link">Contact</a>
-              <a href="#" className="footer__link">Privacy Policy</a>
+              <Link to="/contact" className="footer__link">Contact Us</Link>
+              <Link to="/privacy" className="footer__link">Privacy Policy</Link>
+              <Link to="/terms" className="footer__link">Terms of Service</Link>
             </nav>
           </div>
 
@@ -50,10 +49,10 @@ export default function Footer() {
             <h4 className="footer__header">Newsletter</h4>
             <p className="footer__desc">Stay updated with the latest service trends.</p>
             <form className="footer__newsletter" onSubmit={handleSubmit}>
-              <input 
-                type="email" 
-                placeholder="Email" 
-                className="footer__input" 
+              <input
+                type="email"
+                placeholder="Email"
+                className="footer__input"
                 aria-label="Email address"
                 required
               />
@@ -71,8 +70,8 @@ export default function Footer() {
             © 2026 TaskTusk. Connecting local expertise with immediate needs.
           </p>
           <div className="footer__bottom-links">
-            <a href="#" className="footer__bottom-link">Terms of Service</a>
-            <a href="#" className="footer__bottom-link">Privacy Policy</a>
+            <Link to="/terms" className="footer__bottom-link">Terms of Service</Link>
+            <Link to="/privacy" className="footer__bottom-link">Privacy Policy</Link>
           </div>
         </div>
 

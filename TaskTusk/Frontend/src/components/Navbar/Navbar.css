@@ -62,48 +62,162 @@
   border-bottom-color: var(--primary);
 }
 
+.navbar__link-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--primary-light);
+  color: var(--primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.navbar__link-tag.admin {
+  background: var(--tertiary-fixed);
+  color: var(--on-tertiary-fixed);
+}
+
 .navbar__right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+}
+
+/* ==========================================
+   NAVBAR ACTION BUTTONS (Login & Signup)
+   ========================================== */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .navbar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font);
   font-size: 14px;
-  font-weight: 600;
-  border-radius: var(--radius);
+  font-weight: 700;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all var(--transition);
   letter-spacing: 0.02em;
   white-space: nowrap;
   line-height: 1;
+  text-decoration: none;
 }
 
 .navbar__btn--ghost {
   background: transparent;
-  border: none;
-  color: var(--primary);
-  padding: 10px 16px;
+  border: 1.5px solid var(--outline-variant);
+  color: var(--on-surface-variant);
+  padding: 10px 18px;
 }
 
-.navbar__btn--ghost:hover { background: var(--primary-light); }
+.navbar__btn--ghost:hover {
+  background: var(--surface-container-low);
+  border-color: var(--outline);
+  color: var(--primary);
+}
 
 .navbar__btn--primary {
   background: var(--primary);
   color: var(--on-primary);
-  border: none;
-  padding: 11px 22px;
-  box-shadow: 0 2px 8px rgba(0, 61, 155, 0.25);
+  border: 1.5px solid var(--primary);
+  padding: 10px 22px;
+  box-shadow: 0 4px 12px rgba(0, 61, 155, 0.15);
 }
 
 .navbar__btn--primary:hover {
   background: var(--primary-hover);
-  box-shadow: 0 4px 14px rgba(0, 61, 155, 0.35);
+  border-color: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(0, 61, 155, 0.25);
   transform: translateY(-1px);
 }
 
-.navbar__btn--primary:active { transform: scale(0.97); }
+.navbar__btn--primary:active {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   ROLE SWITCHER DESIGN SYSTEM
+   ========================================== */
+.role-switcher {
+  display: flex;
+  background: var(--surface-container-low);
+  padding: 4px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--outline-variant);
+  gap: 4px;
+}
+
+.role-switcher__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  color: var(--on-surface-variant);
+  transition: all var(--transition);
+  position: relative;
+}
+
+.role-switcher__btn:hover {
+  color: var(--primary);
+  background: rgba(0, 61, 155, 0.05);
+}
+
+.role-switcher__btn.active {
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.role-switcher__btn.active:hover {
+  color: var(--on-primary);
+  background: var(--primary-hover);
+}
+
+/* Notification badge */
+.navbar__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: var(--secondary);
+  color: var(--on-secondary);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border: 2px solid var(--surface);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 108, 71, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px rgba(0, 108, 71, 0);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
 .navbar__hamburger {
   display: none;
@@ -155,25 +269,104 @@
 
 .navbar__mobile-link:hover { color: var(--primary); }
 
-.navbar__mobile-actions {
+/* ==========================================
+   USER PROFILE MENU & LOGOUT
+   ========================================== */
+.user-profile-menu {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--on-surface);
+  background: var(--surface-container-low);
+  padding: 6px 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--outline-variant);
+}
+
+.user-name {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-role-badge {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: 99px;
+  line-height: 1;
+}
+
+.user-role-badge.customer {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.user-role-badge.provider {
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+.user-role-badge.admin {
+  background: var(--tertiary-fixed);
+  color: var(--on-tertiary-fixed);
+}
+
+.navbar__badge-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--on-surface-variant);
+  transition: color var(--transition);
+}
+
+.navbar__badge-wrap:hover {
+  color: var(--primary);
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ba1a1a !important;
+}
+
+.logout-btn:hover {
+  background: #fff0ee !important;
+}
+
+.mobile-actions-wrapper {
   margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--outline-variant);
 }
 
-.navbar__mobile-actions .navbar__btn {
-  flex: 1;
-  text-align: center;
-  padding: 12px 16px;
+.mobile-auth-buttons {
+  display: flex;
+  gap: 10px;
 }
 
-.navbar__mobile-actions .navbar__btn--ghost {
+.mobile-logout {
+  width: 100%;
+  justify-content: center;
   border: 1.5px solid var(--outline-variant);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .navbar__container { padding: 0 16px; height: 60px; }
   .navbar__links { display: none; }
-  .navbar__right .navbar__btn:not(.navbar__hamburger) { display: none; }
+  .navbar__right .user-profile-menu { display: none; }
+  .navbar__right .navbar__actions { display: none; }
   .navbar__hamburger { display: flex; }
 }

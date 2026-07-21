@@ -1,0 +1,228 @@
+{
+  "providers": [
+    {
+      "_id": "p1",
+      "name": "Rajesh Kumar",
+      "phone": "+91 98765 43210",
+      "profession": "AC Repair & Service",
+      "price": 349,
+      "experience": 8,
+      "rating": 4.8,
+      "reviewsCount": 142,
+      "address": "Flat 402, Pocket C, Sector 12, Dwarka",
+      "city": "New Delhi",
+      "pincode": "110075",
+      "available": true,
+      "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=200&auto=format&fit=crop"
+    },
+    {
+      "_id": "p2",
+      "name": "Sunita Sharma",
+      "phone": "+91 87654 32109",
+      "profession": "Cleaning",
+      "price": 249,
+      "experience": 5,
+      "rating": 4.9,
+      "reviewsCount": 98,
+      "address": "B-12, Green Park Extension, Andheri West",
+      "city": "Mumbai",
+      "pincode": "400053",
+      "available": true,
+      "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=200&auto=format&fit=crop"
+    },
+    {
+      "_id": "p3",
+      "name": "Amit Patel",
+      "phone": "+91 76543 21098",
+      "profession": "Electrical",
+      "price": 199,
+      "experience": 6,
+      "rating": 4.7,
+      "reviewsCount": 76,
+      "address": "Shyam Bungalows, Near Drive In Road",
+      "city": "Ahmedabad",
+      "pincode": "380054",
+      "available": true,
+      "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=200&auto=format&fit=crop"
+    },
+    {
+      "_id": "p4",
+      "name": "Pooja Gupta",
+      "phone": "+91 95432 10987",
+      "profession": "Salon & Beautician",
+      "price": 499,
+      "experience": 7,
+      "rating": 4.9,
+      "reviewsCount": 165,
+      "address": "Apartment 102, Shanthi Layout, Whitefield",
+      "city": "Bengaluru",
+      "pincode": "560066",
+      "available": true,
+      "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=200&auto=format&fit=crop"
+    },
+    {
+      "_id": "p5",
+      "name": "Vikram Singh",
+      "phone": "+91 91234 56789",
+      "profession": "Carpentry",
+      "price": 299,
+      "experience": 10,
+      "rating": 4.6,
+      "reviewsCount": 54,
+      "address": "Plot 45, Hanuman Nagar, Vaishali Nagar",
+      "city": "Jaipur",
+      "pincode": "302021",
+      "available": true,
+      "image": "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=200&auto=format&fit=crop"
+    },
+    {
+      "_id": "p6",
+      "name": "Ramesh Prasad",
+      "phone": "+91 88990 12345",
+      "profession": "Plumbing",
+      "price": 249,
+      "experience": 12,
+      "rating": 4.9,
+      "reviewsCount": 210,
+      "address": "Lane 4, Koregaon Park",
+      "city": "Pune",
+      "pincode": "411001",
+      "available": true,
+      "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=200&auto=format&fit=crop"
+    }
+  ],
+  "customers": [
+    {
+      "_id": "c1",
+      "name": "Rahul Verma",
+      "phone": "+91 99887 76655",
+      "address": "Flat 101, Prestige Heights, HSR Layout, Bengaluru"
+    },
+    {
+      "_id": "c2",
+      "name": "Priya Nair",
+      "phone": "+91 98877 66554",
+      "address": "Block A-4, Golf Link Apartments, New Delhi"
+    }
+  ],
+  "bookings": [
+    {
+      "_id": "b1",
+      "customerId": "c1",
+      "customerName": "Rahul Verma",
+      "customerPhone": "+91 99887 76655",
+      "customerAddress": "Flat 101, Prestige Heights, HSR Layout, Bengaluru",
+      "providerId": "p2",
+      "providerName": "Sunita Sharma",
+      "providerProfession": "Cleaning",
+      "price": 249,
+      "date": "2026-07-19",
+      "timeSlot": "10:00 AM - 12:00 PM",
+      "status": "completed",
+      "notificationStatus": "read",
+      "createdAt": "2026-07-19T12:26:44.030Z"
+    },
+    {
+      "_id": "b2",
+      "customerId": "c2",
+      "customerName": "Priya Nair",
+      "customerPhone": "+91 98877 66554",
+      "customerAddress": "Block A-4, Golf Link Apartments, New Delhi",
+      "providerId": "p1",
+      "providerName": "Rajesh Kumar",
+      "providerProfession": "AC Repair & Service",
+      "price": 349,
+      "date": "2026-07-20",
+      "timeSlot": "02:00 PM - 04:00 PM",
+      "status": "accepted",
+      "notificationStatus": "read",
+      "createdAt": "2026-07-20T12:26:44.030Z"
+    },
+    {
+      "_id": "b3",
+      "customerId": "c1",
+      "customerName": "Rahul Verma",
+      "customerPhone": "+91 99887 76655",
+      "customerAddress": "Flat 101, Prestige Heights, HSR Layout, Bengaluru",
+      "providerId": "p4",
+      "providerName": "Pooja Gupta",
+      "providerProfession": "Salon & Beautician",
+      "price": 499,
+      "date": "2026-07-22",
+      "timeSlot": "04:00 PM - 06:00 PM",
+      "status": "pending",
+      "notificationStatus": "unread",
+      "createdAt": "2026-07-21T12:26:44.030Z"
+    }
+  ],
+  "users": [
+    {
+      "_id": "u_admin",
+      "name": "Super Admin",
+      "email": "admin@tasktusk.com",
+      "password": "$2b$10$HgUhX1O58d/9aMBN3MjoOOB898UZFioc.8ZtkOpZCbeEyPGIafcbO",
+      "role": "admin",
+      "phone": "+91 99999 88888",
+      "address": "TaskTusk Operations Hub, New Delhi",
+      "isSuspended": false
+    },
+    {
+      "_id": "c1",
+      "name": "Rahul Verma",
+      "email": "rahul@gmail.com",
+      "password": "$2b$10$22u0iw9/DLYg.rm5ggw7aeFSowzDy9XQAoBI9VP.7VlUPM0mgGl7C",
+      "role": "customer",
+      "phone": "+91 99887 76655",
+      "address": "Flat 101, HSR Layout, Bengaluru",
+      "isSuspended": false
+    },
+    {
+      "_id": "p1",
+      "name": "Rajesh Kumar",
+      "email": "rajesh@gmail.com",
+      "password": "$2b$10$rCf8xxl6aJtxadwyjVBQxuRSgbEbHuwmFzJouWEGwfb7jhEGWaUQi",
+      "role": "provider",
+      "phone": "+91 98765 43210",
+      "address": "Flat 402, Sector 12, Dwarka, New Delhi",
+      "rating": 5,
+      "reviewsCount": 0,
+      "isSuspended": false
+    },
+    {
+      "_id": "p2",
+      "name": "Sunita Sharma",
+      "email": "sunita@gmail.com",
+      "password": "$2b$10$Nx0B8..0TMOOb/YZx8fncuFM46Pj2xUQbB3kMo3MT/oc9y1vvRPUq",
+      "role": "provider",
+      "phone": "+91 87654 32109",
+      "address": "Green Park Ext, Andheri West, Mumbai",
+      "rating": 5,
+      "reviewsCount": 0,
+      "isSuspended": false
+    }
+  ],
+  "services": [
+    {
+      "_id": "s1",
+      "providerId": "p1",
+      "providerName": "Rajesh Kumar",
+      "title": "AC Condenser Servicing",
+      "category": "AC Repair & Service",
+      "price": 349,
+      "description": "Full servicing of split AC indoor and outdoor unit with high-pressure water pump jet.",
+      "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=200&auto=format&fit=crop"
+    },
+    {
+      "_id": "s2",
+      "providerId": "p2",
+      "providerName": "Sunita Sharma",
+      "title": "Deep House Cleaning",
+      "category": "Cleaning",
+      "price": 249,
+      "description": "Includes kitchen, bathroom, and living room cleaning with specialized disinfectants.",
+      "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=200&auto=format&fit=crop"
+    }
+  ],
+  "reviews": [],
+  "payments": []
+}

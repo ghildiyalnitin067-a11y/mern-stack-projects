@@ -1,38 +1,115 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { Menu, X, Briefcase, LogOut, LayoutDashboard, User } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { apiFetch } from '../../api'
 import './Navbar.css'
 
-const Navbar = () => {
+const Navbar = ({ user, onLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false)
-
-  const handleSignUp = () => {
-    toast.success('Welcome! Redirecting to sign up…', { icon: '👋' })
-  }
-
-  const handleLogin = () => {
-    toast('Redirecting to login…', { icon: '🔐' })
-  }
-
+  const [unreadCount, setUnreadCount] = useState(0)
+  const location = useLocation()
   const closeMenu = () => setMenuOpen(false)
+
+
+  useEffect(() => {
+    if (!user || user.role !== 'provider') {
+      setUnreadCount(0)
+      return
+    }
+
+    const fetchNotifications = async () => {
+      try {
+        const res = await apiFetch('/api/provider/bookings')
+        if (res.ok) {
+          const bookings = await res.json()
+
+          const pending = bookings.filter(b => b.status === 'pending').length
+          setUnreadCount(pending)
+        }
+      } catch (err) {
+
+      }
+    }
+
+    fetchNotifications()
+    const timer = setInterval(fetchNotifications, 5000)
+    return () => clearInterval(timer)
+  }, [user])
+
+  const getActiveLinkClass = (path) => {
+    return location.pathname === path ? 'navbar__link active' : 'navbar__link'
+  }
 
   return (
     <header>
       <nav className="navbar" role="navigation" aria-label="Main navigation">
         <div className="navbar__container">
           <div className="navbar__left">
-            <a href="/" className="navbar__logo">TaskTusk</a>
+            <Link to="/" className="navbar__logo">
+              TaskTusk
+            </Link>
+
             <div className="navbar__links">
-              <a href="#services"     className="navbar__link active">Browse Services</a>
-              <a href="#how-it-works" className="navbar__link">How It Works</a>
-              <a href="/testimonials" className="navbar__link">Testimonials</a>
+              <Link to="/" className={getActiveLinkClass('/')}>Home</Link>
+              <Link to="/services" className={getActiveLinkClass('/services')}>Services</Link>
+              <Link to="/testimonials" className={getActiveLinkClass('/testimonials')}>Testimonials</Link>
+              <Link to="/contact" className={getActiveLinkClass('/contact')}>Contact</Link>
+
+              {user && (
+                <>
+                  {user.role === 'customer' && (
+                    <Link to="/customer/dashboard" className={getActiveLinkClass('/customer/dashboard')}>
+                      My Bookings
+                    </Link>
+                  )}
+                  {user.role === 'provider' && (
+                    <Link to="/provider/dashboard" className={getActiveLinkClass('/provider/dashboard')}>
+                      Partner Portal
+                    </Link>
+                  )}
+                  {user.role === 'admin' && (
+                    <a href="http://localhost:5174/" className="navbar__link">
+                      Admin Operations
+                    </a>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
           <div className="navbar__right">
-            <button className="navbar__btn navbar__btn--ghost"   onClick={handleLogin}>Log In</button>
-            <button className="navbar__btn navbar__btn--primary" onClick={handleSignUp}>Sign Up</button>
+            {user ? (
+              <div className="user-profile-menu">
+                <span className="user-info">
+                  <User size={14} />
+                  <span className="user-name">{user.name}</span>
+                  <span className={`user-role-badge ${user.role}`}>
+                    {user.role}
+                  </span>
+                </span>
+
+                {user.role === 'provider' && unreadCount > 0 && (
+                  <Link to="/provider/dashboard" className="navbar__badge-wrap" title="New Bookings Received">
+                    <Briefcase size={16} />
+                    <span className="navbar__badge animate-pulse">{unreadCount}</span>
+                  </Link>
+                )}
+
+                <button
+                  className="navbar__btn navbar__btn--ghost logout-btn"
+                  onClick={onLogout}
+                >
+                  <LogOut size={15} />
+                  <span>Log Out</span>
+                </button>
+              </div>
+            ) : (
+              <div className="navbar__actions">
+                <Link to="/login" className="navbar__btn navbar__btn--ghost">Log In</Link>
+                <Link to="/signup" className="navbar__btn navbar__btn--primary">Sign Up</Link>
+              </div>
+            )}
 
             <button
               className="navbar__hamburger"
@@ -68,6 +145,7 @@ const Navbar = () => {
           </div>
         </div>
 
+
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -80,13 +158,38 @@ const Navbar = () => {
               aria-hidden={!menuOpen}
             >
               <div className="navbar__mobile-inner">
-                <a href="#services"     className="navbar__mobile-link" onClick={closeMenu}>Browse Services</a>
-                <a href="#how-it-works" className="navbar__mobile-link" onClick={closeMenu}>How It Works</a>
-                <a href="/testimonials" className="navbar__mobile-link" onClick={closeMenu}>Testimonials</a>
+                <Link to="/" className="navbar__mobile-link" onClick={closeMenu}>Home</Link>
+                <Link to="/services" className="navbar__mobile-link" onClick={closeMenu}>Services</Link>
+                <Link to="/testimonials" className="navbar__mobile-link" onClick={closeMenu}>Testimonials</Link>
 
-                <div className="navbar__mobile-actions">
-                  <button className="navbar__btn navbar__btn--ghost"   onClick={() => { handleLogin();  closeMenu() }}>Log In</button>
-                  <button className="navbar__btn navbar__btn--primary" onClick={() => { handleSignUp(); closeMenu() }}>Sign Up</button>
+                {user && (
+                  <>
+                    {user.role === 'customer' && (
+                      <Link to="/customer/dashboard" className="navbar__mobile-link" onClick={closeMenu}>My Bookings</Link>
+                    )}
+                    {user.role === 'provider' && (
+                      <Link to="/provider/dashboard" className="navbar__mobile-link" onClick={closeMenu}>Partner Portal</Link>
+                    )}
+                    {user.role === 'admin' && (
+                      <a href="http://localhost:5174/" className="navbar__mobile-link" onClick={closeMenu}>Admin Operations</a>
+                    )}
+                  </>
+                )}
+
+                <div className="mobile-actions-wrapper">
+                  {user ? (
+                    <button
+                      className="navbar__btn navbar__btn--ghost logout-btn mobile-logout"
+                      onClick={() => { onLogout(); closeMenu() }}
+                    >
+                      <LogOut size={15} /> Log Out
+                    </button>
+                  ) : (
+                    <div className="mobile-auth-buttons">
+                      <Link to="/login" className="navbar__btn navbar__btn--ghost" onClick={closeMenu}>Log In</Link>
+                      <Link to="/signup" className="navbar__btn navbar__btn--primary" onClick={closeMenu}>Sign Up</Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
