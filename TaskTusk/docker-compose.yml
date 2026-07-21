@@ -11,8 +11,8 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: Backend/Dockerfile
+      context: ./Backend
+      dockerfile: Dockerfile
     container_name: tasktusk-backend
     ports:
       - "5000:5000"
