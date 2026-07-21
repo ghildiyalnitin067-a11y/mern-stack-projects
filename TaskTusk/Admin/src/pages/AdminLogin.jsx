@@ -25,10 +25,15 @@ const AdminLogin = ({ onLoginSuccess }) => {
         const data = await res.json()
         const user = data.user
 
+        if (data.token) {
+          localStorage.setItem('tasktusk_token', data.token)
+        }
+
         if (user.role !== 'admin') {
           toast.error('Access Denied: Not authorized as Administrator', { id: toastId })
 
           await apiFetch('/api/auth/logout')
+          localStorage.removeItem('tasktusk_token')
           setSubmitting(false)
           return
         }

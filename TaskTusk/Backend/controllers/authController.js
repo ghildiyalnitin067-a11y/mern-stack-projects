@@ -4,12 +4,15 @@ import { User } from '../models/User.js'
 
 const getJwtSecret = () => process.env.JWT_SECRET || 'tasktusk_dev_secret_key_change_in_production_2026'
 
-const getCookieOptions = () => ({
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  maxAge: 7 * 24 * 60 * 60 * 1000
-})
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.CLIENT_URL || !!process.env.ADMIN_URL
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  }
+}
 
 const isValidEmail = (email) => {
   return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
@@ -48,7 +51,7 @@ export const register = async (req, res) => {
 
     res.cookie('token', token, getCookieOptions())
 
-    res.status(201).json({ user })
+    res.status(201).json({ user, token })
   } catch (error) {
     res.status(500).json({ error: 'Registration failed: ' + error.message })
   }
@@ -85,7 +88,7 @@ export const login = async (req, res) => {
     res.cookie('token', token, getCookieOptions())
 
     const { password: _, ...safeUser } = user
-    res.json({ user: safeUser })
+    res.json({ user: safeUser, token })
   } catch (error) {
     res.status(500).json({ error: 'Login failed: ' + error.message })
   }

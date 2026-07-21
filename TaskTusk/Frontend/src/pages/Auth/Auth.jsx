@@ -47,6 +47,9 @@ const Auth = ({ onLogin, mode: initialMode }) => {
       const data = await res.json()
 
       if (res.ok) {
+        if (data.token) {
+          localStorage.setItem('tasktusk_token', data.token)
+        }
         toast.success(mode === 'login' ? 'Logged in successfully!' : 'Account registered successfully!', { id: toastId })
         onLogin(data.user)
       } else {

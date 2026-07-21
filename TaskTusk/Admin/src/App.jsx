@@ -26,14 +26,14 @@ function App() {
 
   const handleAdminLogout = async () => {
     try {
-      const res = await apiFetch('/api/auth/logout', {
+      await apiFetch('/api/auth/logout', {
         method: 'POST'
       })
-      if (res.ok) {
-        setAdminUser(null)
-      }
     } catch (err) {
       console.error('Logout error:', err)
+    } finally {
+      localStorage.removeItem('tasktusk_token')
+      setAdminUser(null)
     }
   }
 

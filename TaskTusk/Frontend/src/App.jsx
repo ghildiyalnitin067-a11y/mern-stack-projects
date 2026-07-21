@@ -61,10 +61,12 @@ function AppContent() {
   const handleLogout = async () => {
     try {
       await apiFetch('/api/auth/logout', { method: 'POST' })
-      setUser(null)
-      navigate('/login')
     } catch (err) {
       console.error('Logout failed')
+    } finally {
+      localStorage.removeItem('tasktusk_token')
+      setUser(null)
+      navigate('/login')
     }
   }
 
