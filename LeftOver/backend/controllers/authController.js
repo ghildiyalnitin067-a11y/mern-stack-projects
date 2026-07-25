@@ -191,16 +191,14 @@ export const sendOtp = async (req, res) => {
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       try {
         const transporter = nodemailer.createTransport({
-          host: 'smtp.gmail.com',
-          port: 587,
-          secure: false,
+          service: process.env.EMAIL_SERVICE || 'gmail',
           auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
           },
-          tls: {
-            rejectUnauthorized: false
-          }
+          connectionTimeout: 3000,
+          greetingTimeout: 3000,
+          socketTimeout: 4000
         });
 
         await transporter.sendMail({
