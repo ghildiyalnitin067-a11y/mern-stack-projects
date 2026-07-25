@@ -5,6 +5,7 @@ import {
   Search, Filter, UserCheck, AlertTriangle, RefreshCw
 } from 'lucide-react';
 import { 
+  API_BASE_URL,
   apiGetAdminUsers, 
   apiUpdateUserStatus, 
   apiUpdateUserRole, 
@@ -13,8 +14,6 @@ import {
   apiGetAdminAnalytics 
 } from './services/api';
 import './App.css';
-
-const API_BASE_URL = 'http://localhost:5000/api';
 
 function App() {
   const [activeTab, setActiveTab] = useState('users');
