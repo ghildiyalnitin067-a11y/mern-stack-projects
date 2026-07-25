@@ -1,0 +1,11 @@
+.list-food-page {
+  padding: 40px 0;
+  min-height: calc(100vh - 80px);
+  background-color: var(--color-bg-main);
+}
+
+.list-food-page-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: var(--container-padding);
+}

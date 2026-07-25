@@ -1,0 +1,365 @@
+.order-modal-content {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  padding: 28px;
+}
+
+.order-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.order-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-bag-icon {
+  color: var(--color-primary);
+}
+
+.order-header-title h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+}
+
+.order-close-btn {
+  background: transparent;
+  color: #64748b;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-close-btn:hover {
+  background-color: #f1f5f9;
+}
+
+/* Item Summary Box */
+.order-item-summary {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background-color: #f8fafc;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 18px;
+}
+
+.order-item-img {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.order-item-info h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+}
+
+.order-category-tag {
+  background-color: #ecfdf5;
+  color: #059669;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.order-donor-text {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.order-window-pill {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* Time Slots Grid */
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.time-slot-btn {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.time-slot-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.time-slot-btn.active {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #34d399;
+  font-weight: 800;
+}
+
+/* Quantity & Phone */
+.quantity-counter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  padding: 6px 12px;
+  justify-content: space-between;
+}
+
+.counter-btn {
+  background-color: #f1f5f9;
+  color: var(--color-text-dark);
+  font-size: 16px;
+  font-weight: 800;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.counter-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.input-icon-box {
+  position: relative;
+}
+
+.input-inner-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+}
+
+.input-icon-box input {
+  padding-left: 36px !important;
+}
+
+/* Actions */
+.order-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-order-cancel {
+  background-color: #f1f5f9;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+}
+
+.btn-order-confirm {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+  transition: var(--transition-fast);
+}
+
+.btn-order-confirm:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Step 2: Digital Ticket Pass */
+.digital-ticket-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.ticket-card {
+  width: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: var(--radius-lg);
+  border: 2px dashed #cbd5e1;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ticket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.ticket-brand {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand-dark { color: var(--color-text-dark); }
+.brand-green { color: var(--color-primary); }
+
+.ticket-status-pill {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.ticket-main-info h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+}
+
+.ticket-donor {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.ticket-qr-section {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.barcode-simulation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #1e293b;
+}
+
+.barcode-code {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 1px;
+}
+
+.ticket-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background-color: #f1f5f9;
+  padding: 14px;
+  border-radius: var(--radius-md);
+}
+
+.ticket-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-detail-item.full {
+  grid-column: span 2;
+}
+
+.detail-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.detail-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.btn-ticket-maps {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.btn-ticket-maps:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-done-pass {
+  background-color: #1e293b;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-done-pass:hover {
+  background-color: #0f172a;
+}

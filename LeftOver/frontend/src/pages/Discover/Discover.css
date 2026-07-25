@@ -1,0 +1,327 @@
+.discover-page {
+  padding: 30px 0 60px 0;
+  min-height: calc(100vh - 80px);
+  background-color: var(--color-bg-main);
+}
+
+.discover-container {
+  width: 100%;
+  padding: var(--container-padding);
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* Sidebar Styling */
+.discover-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+}
+
+.filter-card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+}
+
+.btn-reset-filters {
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.2s;
+}
+
+.btn-reset-filters:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.filter-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 16px 0 20px 0;
+}
+
+.filter-group {
+  margin-bottom: 24px;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+/* Checkbox list */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: var(--color-text-dark);
+  font-weight: 500;
+}
+
+.checkbox-item input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  transition: var(--transition-fast);
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.check-icon {
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: var(--transition-fast);
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-custom .check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Distance slider */
+.distance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.distance-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.slider-wrapper {
+  margin-top: 8px;
+}
+
+.distance-range {
+  width: 100%;
+  accent-color: var(--color-primary);
+  height: 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* Dietary pills */
+.dietary-pills-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dietary-filter-pill {
+  background-color: #f1f5f9;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.dietary-filter-pill:hover {
+  background-color: #e2e8f0;
+}
+
+.dietary-filter-pill.active {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #34d399;
+  font-weight: 700;
+}
+
+/* Main Area Styling */
+.discover-main {
+  flex: 1;
+}
+
+.discover-top-bar {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-box-large {
+  position: relative;
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 44px 14px 48px;
+  font-size: 15px;
+  font-family: var(--font-family);
+  border-radius: var(--radius-md);
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: var(--transition-fast);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  font-size: 20px;
+  color: #94a3b8;
+  padding: 0 4px;
+}
+
+.results-count {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.results-count strong {
+  color: var(--color-text-dark);
+}
+
+/* Food Grid */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
+}
+
+/* Empty State */
+.empty-discover-state {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 60px 20px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px dashed #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #ecfdf5;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.empty-discover-state h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.empty-discover-state p {
+  font-size: 14px;
+  color: #64748b;
+  max-width: 420px;
+  margin-bottom: 24px;
+}
+
+.btn-clear-all {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.btn-clear-all:hover {
+  background-color: var(--color-primary-hover);
+}
+
+@media (max-width: 900px) {
+  .discover-container {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .discover-sidebar {
+    width: 100%;
+    position: static;
+  }
+}

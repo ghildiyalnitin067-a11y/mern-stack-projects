@@ -1,36 +1,164 @@
-import React from 'react';
-import { Moon, Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import { Moon, Sun, Bell, User, ShoppingBag, LogIn, Settings, ShieldCheck } from 'lucide-react';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ 
+  activePage = 'discover', 
+  onNavigate, 
+  onOpenListFood,
+  theme,
+  toggleTheme,
+  reservedCount = 0,
+  currentUser,
+  onOpenAuth,
+  onOpenProfileSettings,
+  onOpenVerification,
+  onSignOut
+}) => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Brand Logo */}
-        <div className="nav-logo">
+        
+        <div className="nav-logo" onClick={() => onNavigate('home')}>
           <span className="logo-dark">Left</span>
           <span className="logo-green">Over</span>
         </div>
 
-        {/* Center Navigation Links */}
         <ul className="nav-links">
-          <li><a href="#discover">Discover</a></li>
-          <li><a href="#donate">Donate</a></li>
-          <li><a href="#mission">Mission</a></li>
+          <li className={activePage === 'discover' || activePage === 'detail' ? 'active' : ''}>
+            <button className="nav-link-btn" onClick={() => onNavigate('discover')}>
+              Discover
+            </button>
+          </li>
+          <li className={activePage === 'dashboard' ? 'active' : ''}>
+            <button className="nav-link-btn" onClick={() => onNavigate('dashboard')}>
+              Dashboard
+            </button>
+          </li>
+          <li className={activePage === 'donate' ? 'active' : ''}>
+            <button className="nav-link-btn" onClick={() => onNavigate('donate')}>
+              Donate
+            </button>
+          </li>
+          <li className={activePage === 'mission' ? 'active' : ''}>
+            <button className="nav-link-btn" onClick={() => onNavigate('mission')}>
+              Mission
+            </button>
+          </li>
         </ul>
 
-        {/* Right Actions */}
         <div className="nav-actions">
-          <button className="icon-btn" aria-label="Toggle theme">
-            <Moon size={19} />
-          </button>
-          <button className="icon-btn" aria-label="Notifications">
-            <Bell size={19} />
-          </button>
-          <button className="btn-list-food">
+          <button 
+            className="btn-list-food"
+            onClick={onOpenListFood}
+          >
             List Food
           </button>
+
+          <button 
+            className="icon-btn notification-btn" 
+            aria-label="Notifications"
+            onClick={() => {
+              setShowNotifications(!showNotifications);
+              setShowProfileMenu(false);
+            }}
+          >
+            <Bell size={19} />
+            {reservedCount > 0 && <span className="notification-badge">{reservedCount}</span>}
+          </button>
+
+          <button 
+            className="icon-btn theme-toggle-btn" 
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+          >
+            {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
+          </button>
+
+          <div className="profile-wrapper">
+            {currentUser ? (
+              <button 
+                className="profile-avatar-btn"
+                onClick={() => {
+                  setShowProfileMenu(!showProfileMenu);
+                  setShowNotifications(false);
+                }}
+                aria-label="User profile menu"
+              >
+                {currentUser.avatar ? (
+                  <img src={currentUser.avatar} alt={currentUser.name} className="nav-avatar-img" />
+                ) : (
+                  <div className="default-nav-avatar">
+                    <User size={18} />
+                  </div>
+                )}
+              </button>
+            ) : (
+              <button 
+                className="btn-nav-auth"
+                onClick={onOpenAuth}
+              >
+                <LogIn size={15} />
+                <span>Sign In / Register</span>
+              </button>
+            )}
+
+            {currentUser && showProfileMenu && (
+              <div className="dropdown-menu profile-dropdown">
+                <div className="dropdown-user-info">
+                  <strong>{currentUser.name}</strong>
+                  <span>{currentUser.email}</span>
+                  {currentUser.isEmailVerified ? (
+                    <span className="nav-verified-badge"><ShieldCheck size={12} /> Email & Mobile Verified</span>
+                  ) : (
+                    <button className="btn-unverified-tag" onClick={() => { onOpenVerification && onOpenVerification(); setShowProfileMenu(false); }}>
+                      <ShieldCheck size={12} /> Verify Email & Mobile
+                    </button>
+                  )}
+                </div>
+                <div className="dropdown-divider"></div>
+                <button className="dropdown-item" onClick={() => { onOpenVerification && onOpenVerification(); setShowProfileMenu(false); }}>
+                  <ShieldCheck size={14} style={{ marginRight: 6 }} /> Verify Email & Mobile
+                </button>
+                <button className="dropdown-item" onClick={() => { onOpenProfileSettings(); setShowProfileMenu(false); }}>
+                  <Settings size={14} style={{ marginRight: 6 }} /> Edit Profile Settings
+                </button>
+                <button className="dropdown-item" onClick={() => { onNavigate('dashboard'); setShowProfileMenu(false); }}>My Dashboard</button>
+                <button className="dropdown-item" onClick={() => { onNavigate('dashboard'); setShowProfileMenu(false); }}>My Pickups ({reservedCount})</button>
+                <button className="dropdown-item" onClick={() => { onOpenListFood(); setShowProfileMenu(false); }}>My Listings</button>
+                <div className="dropdown-divider"></div>
+                <button className="dropdown-item text-danger" onClick={() => { onSignOut(); setShowProfileMenu(false); }}>Sign Out</button>
+              </div>
+            )}
+          </div>
+
+          {showNotifications && (
+            <div className="dropdown-menu notifications-dropdown">
+              <div className="dropdown-header">
+                <strong>Notifications</strong>
+              </div>
+              <div className="dropdown-divider"></div>
+              {reservedCount > 0 ? (
+                <div className="notification-item">
+                  <ShoppingBag size={16} className="notif-icon-success" />
+                  <div>
+                    <p className="notif-title">Reservation Confirmed!</p>
+                <p className="notif-sub">You have {reservedCount} active pickup(s) ready.</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="notification-item empty">
+                  <p className="notif-sub">No notifications yet.</p>
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
+
       </div>
     </nav>
   );
