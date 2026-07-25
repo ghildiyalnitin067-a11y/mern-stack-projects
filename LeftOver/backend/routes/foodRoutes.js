@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.route('/')
   .get(getFoodListings)
-  .post(createFoodListing);
+  .post(protect, createFoodListing);
 
 router.route('/:id')
   .get(getFoodById)
-  .delete(deleteFoodListing);
+  .delete(protect, deleteFoodListing);
 
 export default router;
