@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { X, Camera, Upload, Link as LinkIcon, User, Check, RefreshCw } from 'lucide-react';
+import { apiUploadImage } from '../../../services/api';
 import './ProfileSettingsModal.css';
 
 const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile }) => {
@@ -85,15 +86,16 @@ const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile })
     }
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     handleStopCamera();
+    const finalAvatar = await apiUploadImage(avatar, 'avatars');
     onUpdateProfile({
       name,
       email,
       phone,
       bio,
-      avatar
+      avatar: finalAvatar
     });
     onClose();
   };

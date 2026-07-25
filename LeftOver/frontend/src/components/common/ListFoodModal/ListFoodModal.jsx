@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload, Plus, Clock, MapPin, Sparkles, CheckCircle2, Camera, RefreshCw, Image as ImageIcon } from 'lucide-react';
+import { apiUploadImage } from '../../../services/api';
 import './ListFoodModal.css';
 
 const PRESET_IMAGES = [
@@ -110,11 +111,12 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     onClose();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
 
-    const finalImage = customImageUrl.trim() || uploadedImagePreview || selectedImage;
+    const rawImage = customImageUrl.trim() || uploadedImagePreview || selectedImage;
+    const finalImage = await apiUploadImage(rawImage, 'food_listings');
 
     const newFoodItem = {
       id: `food-${Date.now()}`,
