@@ -719,3 +719,21 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .detail-card,
+  .detail-sticky-card {
+    padding: 16px !important;
+  }
+  .food-detail-page {
+    padding: 16px 0 40px 0;
+  }
+  .image-gallery-container {
+    margin: 0 -12px; /* Let the image flush to edge of mobile screen if inside padding */
+    border-radius: 0;
+  }
+  .main-detail-image {
+    border-radius: 0;
+  }
+}
+
