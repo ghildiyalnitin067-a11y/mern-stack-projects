@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Moon, Sun, Bell, User, ShoppingBag, LogIn, Settings, ShieldCheck } from 'lucide-react';
+import { Moon, Sun, Bell, User, ShoppingBag, LogIn, Settings, ShieldCheck, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = ({ 
@@ -17,34 +17,40 @@ const Navbar = ({
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const handleNavigate = (page) => {
+    onNavigate(page);
+    setShowMobileMenu(false);
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
         
-        <div className="nav-logo" onClick={() => onNavigate('home')}>
+        <div className="nav-logo" onClick={() => handleNavigate('home')}>
           <span className="logo-dark">Left</span>
           <span className="logo-green">Over</span>
         </div>
 
-        <ul className="nav-links">
+        <ul className={`nav-links ${showMobileMenu ? 'mobile-open' : ''}`}>
           <li className={activePage === 'discover' || activePage === 'detail' ? 'active' : ''}>
-            <button className="nav-link-btn" onClick={() => onNavigate('discover')}>
+            <button className="nav-link-btn" onClick={() => handleNavigate('discover')}>
               Discover
             </button>
           </li>
           <li className={activePage === 'dashboard' ? 'active' : ''}>
-            <button className="nav-link-btn" onClick={() => onNavigate('dashboard')}>
+            <button className="nav-link-btn" onClick={() => handleNavigate('dashboard')}>
               Dashboard
             </button>
           </li>
           <li className={activePage === 'donate' ? 'active' : ''}>
-            <button className="nav-link-btn" onClick={() => onNavigate('donate')}>
+            <button className="nav-link-btn" onClick={() => handleNavigate('donate')}>
               Donate
             </button>
           </li>
           <li className={activePage === 'mission' ? 'active' : ''}>
-            <button className="nav-link-btn" onClick={() => onNavigate('mission')}>
+            <button className="nav-link-btn" onClick={() => handleNavigate('mission')}>
               Mission
             </button>
           </li>
@@ -64,6 +70,7 @@ const Navbar = ({
             onClick={() => {
               setShowNotifications(!showNotifications);
               setShowProfileMenu(false);
+              setShowMobileMenu(false);
             }}
           >
             <Bell size={19} />
@@ -77,6 +84,19 @@ const Navbar = ({
           >
             {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
           </button>
+
+          <button 
+            className="icon-btn mobile-menu-toggle" 
+            aria-label="Toggle menu"
+            onClick={() => {
+              setShowMobileMenu(!showMobileMenu);
+              setShowNotifications(false);
+              setShowProfileMenu(false);
+            }}
+          >
+            {showMobileMenu ? <X size={20} /> : <Menu size={20} />}
+          </button>
+
 
           <div className="profile-wrapper">
             {currentUser ? (
@@ -114,13 +134,13 @@ const Navbar = ({
                   {currentUser.isEmailVerified ? (
                     <span className="nav-verified-badge"><ShieldCheck size={12} /> Email & Mobile Verified</span>
                   ) : (
-                    <button className="btn-unverified-tag" onClick={() => { onOpenVerification && onOpenVerification(); setShowProfileMenu(false); }}>
+                    <button className="btn-unverified-tag" onClick={() => { onOpenVerification?.(); setShowProfileMenu(false); }}>
                       <ShieldCheck size={12} /> Verify Email & Mobile
                     </button>
                   )}
                 </div>
                 <div className="dropdown-divider"></div>
-                <button className="dropdown-item" onClick={() => { onOpenVerification && onOpenVerification(); setShowProfileMenu(false); }}>
+                <button className="dropdown-item" onClick={() => { onOpenVerification?.(); setShowProfileMenu(false); }}>
                   <ShieldCheck size={14} style={{ marginRight: 6 }} /> Verify Email & Mobile
                 </button>
                 <button className="dropdown-item" onClick={() => { onOpenProfileSettings(); setShowProfileMenu(false); }}>

@@ -24,6 +24,8 @@
   user-select: none;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .logo-dark {
@@ -82,6 +84,7 @@
   align-items: center;
   gap: 16px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .icon-btn {
@@ -95,11 +98,16 @@
   transition: var(--transition-fast);
   opacity: 0.75;
   position: relative;
+  flex-shrink: 0;
 }
 
 .icon-btn:hover {
   opacity: 1;
   background-color: #f1f5f9;
+}
+
+.mobile-menu-toggle {
+  display: none !important;
 }
 
 .notification-badge {
@@ -127,6 +135,8 @@
   border-radius: var(--radius-md);
   transition: var(--transition-fast);
   box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-list-food:hover {
@@ -314,14 +324,104 @@
 }
 
 @media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .icon-btn {
+    padding: 6px;
+  }
+
+  .nav-logo {
+    font-size: 22px;
+  }
+
   .nav-links {
-    gap: 16px;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-bg-card);
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    gap: 12px;
+    align-items: flex-start;
+    z-index: 999;
   }
+
+  .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+    position: relative;
+  }
+
+  .nav-links li.active::after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: 0 3px 3px 0;
+  }
+
   .nav-link-btn {
-    font-size: 13px;
+    width: 100%;
+    text-align: left;
+    padding: 8px 0;
+    font-size: 15px;
+    opacity: 0.9;
   }
+
   .btn-list-food {
-    padding: 8px 14px;
-    font-size: 13px;
+    padding: 7px 12px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 580px) {
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+  }
+
+  .dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .nav-actions {
+    gap: 4px;
+  }
+
+  .btn-list-food {
+    padding: 6px 9px;
+    font-size: 11.5px;
+  }
+  
+  .btn-nav-auth span {
+    display: none;
+  }
+
+  .btn-nav-auth {
+    padding: 6px 8px;
   }
 }
