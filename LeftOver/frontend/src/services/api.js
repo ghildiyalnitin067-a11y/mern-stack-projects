@@ -118,3 +118,26 @@ export const apiCancelReservation = async (reservationId) => {
     return { success: false, message: 'Failed to cancel reservation' };
   }
 };
+
+export const apiUploadImage = async (imageData, folder = 'general') => {
+  try {
+    if (!imageData || !imageData.startsWith('data:')) {
+      return imageData; // Already a URL or preset image path
+    }
+    const res = await fetch(`${API_BASE_URL}/upload`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({ image: imageData, folder })
+    });
+    const data = await res.json();
+    if (data.success && data.url) {
+      return data.url;
+    }
+    return imageData;
+  } catch (err) {
+    return imageData;
+  }
+};
