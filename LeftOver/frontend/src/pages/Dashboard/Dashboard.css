@@ -811,3 +811,16 @@
     overflow-x: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-container {
+    padding: 0 12px;
+  }
+  .dashboard-hero-card {
+    padding: 20px 16px;
+  }
+}
+
