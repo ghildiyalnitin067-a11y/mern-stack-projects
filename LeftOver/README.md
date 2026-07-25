@@ -17,9 +17,6 @@
 | :--- | :--- | :--- |
 | 🌐 **Live User Web App** | `[ Insert Live App URL Here ]` | Main user portal to browse, list, and claim surplus food |
 | 🛡️ **Admin Dashboard** | `[ Insert Admin Portal URL Here ]` | Administrative moderation and analytics panel |
-| 📑 **API Documentation** | `[ Insert Postman / Swagger URL Here ]` | Comprehensive REST API documentation |
-| 🐙 **GitHub Repository** | [mern-stack-projects](https://github.com/ghildiyalnitin067-a11y/mern-stack-projects) | Source code repository |
-| ⚡ **Live API Endpoint** | `[ Insert Backend Server URL Here ]` | Express REST API server |
 
 ---
 
