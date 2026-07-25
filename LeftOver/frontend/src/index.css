@@ -58,3 +58,15 @@ button {
   border: none;
   outline: none;
 }
+
+@media (max-width: 1024px) {
+  :root {
+    --container-padding: 0 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 0 16px;
+  }
+}

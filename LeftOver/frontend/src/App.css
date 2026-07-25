@@ -132,3 +132,77 @@ body.dark-theme .detail-description-text,
 body.dark-theme .detail-address-text {
   color: #cbd5e1;
 }
+
+@media (max-width: 768px) {
+  .toast-notification {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    justify-content: center;
+  }
+
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-content,
+  .auth-modal-content,
+  .profile-modal-content,
+  .verification-modal-content,
+  .order-modal-content,
+  .report-modal-content,
+  .chat-modal-content {
+    padding: 20px !important;
+    max-height: 92vh !important;
+  }
+
+  .modal-actions,
+  .profile-modal-actions,
+  .report-modal-actions,
+  .order-modal-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .modal-actions button,
+  .profile-modal-actions button,
+  .report-modal-actions button,
+  .order-modal-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .placeholder-card {
+    padding: 30px 20px;
+  }
+
+  .modal-overlay {
+    padding: 6px;
+  }
+
+  .modal-content,
+  .auth-modal-content,
+  .profile-modal-content,
+  .verification-modal-content,
+  .order-modal-content,
+  .report-modal-content,
+  .chat-modal-content {
+    padding: 16px 12px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .avatar-edit-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .role-selector-row {
+    flex-direction: column;
+  }
+}
+
+
