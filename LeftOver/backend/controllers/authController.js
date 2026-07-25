@@ -40,8 +40,7 @@ export const registerUser = async (req, res) => {
         name,
         email: cleanEmail,
         password,
-        role: role || 'user',
-        isEmailVerified: true
+        role: role || 'user'
       });
 
       return res.status(201).json({
@@ -52,7 +51,6 @@ export const registerUser = async (req, res) => {
           email: user.email,
           role: user.role,
           avatar: user.avatar,
-          isEmailVerified: true,
           token: generateToken(user._id, user.name, user.email, user.role)
         }
       });
@@ -71,8 +69,7 @@ export const registerUser = async (req, res) => {
         email: cleanEmail,
         passwordHash,
         role: role || 'user',
-        avatar: null,
-        isEmailVerified: true
+        avatar: null
       };
       dynamicUsersStore.push(newUser);
 
@@ -84,7 +81,6 @@ export const registerUser = async (req, res) => {
           email: newUser.email,
           role: newUser.role,
           avatar: null,
-          isEmailVerified: true,
           token: generateToken(newUser.id, newUser.name, newUser.email, newUser.role)
         }
       });
@@ -115,7 +111,6 @@ export const loginUser = async (req, res) => {
             email: user.email,
             role: user.role,
             avatar: user.avatar,
-            isEmailVerified: user.isEmailVerified || false,
             token: generateToken(user._id, user.name, user.email, user.role)
           }
         });
@@ -132,7 +127,6 @@ export const loginUser = async (req, res) => {
             email: user.email,
             role: user.role,
             avatar: user.avatar,
-            isEmailVerified: user.isEmailVerified || false,
             token: generateToken(user.id, user.name, user.email, user.role)
           }
         });
@@ -144,8 +138,7 @@ export const loginUser = async (req, res) => {
         name: cleanEmail.split('@')[0],
         email: cleanEmail,
         role: 'user',
-        avatar: null,
-        isEmailVerified: true
+        avatar: null
       };
       dynamicUsersStore.push(newUser);
 
@@ -157,7 +150,6 @@ export const loginUser = async (req, res) => {
           email: newUser.email,
           role: newUser.role,
           avatar: null,
-          isEmailVerified: true,
           token: generateToken(newUser.id, newUser.name, newUser.email, newUser.role)
         }
       });
@@ -263,13 +255,7 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
     }
 
-    otpStore.delete(cleanEmail);
-
-    if (isConnectedToMongo) {
-      await User.findOneAndUpdate({ email: cleanEmail }, { isEmailVerified: true });
-    }
-
-    return res.json({ success: true, message: 'Email verified successfully!' });
+    return res.json({ success: true, message: 'OTP verified successfully!' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

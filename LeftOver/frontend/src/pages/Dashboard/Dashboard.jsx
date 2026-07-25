@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   UtensilsCrossed, Leaf, Clock, HeartHandshake, 
   Plus, MapPin, CheckCircle2, ShieldCheck, 
-  Award, Trash2, Heart, Store, User, ArrowRightLeft, AlertTriangle
+  Award, Trash2, Heart, Store, User, ArrowRightLeft
 } from 'lucide-react';
 import DonorDashboard from '../../components/donor/DonorDashboard';
 import './Dashboard.css';
@@ -111,12 +111,7 @@ const Dashboard = ({
             <div className="user-hero-text">
               <div className="user-name-row">
                 <h1>{userName}</h1>
-                <span className="level-badge">Level 4 Rescuer</span>
-                {currentUser?.isEmailVerified ? (
-                  <span className="verified-account-tag"><ShieldCheck size={13} /> Verified Account</span>
-                ) : (
-                  <span className="unverified-account-tag"><AlertTriangle size={12} /> Pending Verification</span>
-                )}
+                <span className="verified-account-tag"><ShieldCheck size={13} /> Verified Account</span>
                 <button 
                   className="btn-role-switch-header"
                   onClick={() => {

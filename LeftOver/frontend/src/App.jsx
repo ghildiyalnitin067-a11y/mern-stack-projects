@@ -10,7 +10,6 @@ import ContactDonorModal from './components/common/ContactDonorModal/ContactDono
 import ReservationModal from './components/common/ReservationModal/ReservationModal';
 import AuthModal from './components/common/AuthModal/AuthModal';
 import ProfileSettingsModal from './components/common/ProfileSettingsModal/ProfileSettingsModal';
-import VerificationModal from './components/common/VerificationModal/VerificationModal';
 import { INITIAL_FOOD_ITEMS } from './data/mockFoodData';
 import {
   apiFetchFoodListings,
@@ -40,7 +39,6 @@ function App() {
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isProfileSettingsModalOpen, setIsProfileSettingsModalOpen] = useState(false);
-  const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
 
   const [isListFoodModalOpen, setIsListFoodModalOpen] = useState(false);
   const [reservingFoodItem, setReservingFoodItem] = useState(null);
@@ -188,7 +186,6 @@ function App() {
         currentUser={currentUser}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         onOpenProfileSettings={() => setIsProfileSettingsModalOpen(true)}
-        onOpenVerification={() => setIsVerificationModalOpen(true)}
         onSignOut={handleSignOut}
       />
 
@@ -272,20 +269,6 @@ function App() {
         onClose={() => setIsProfileSettingsModalOpen(false)}
         currentUser={currentUser}
         onUpdateProfile={handleUpdateProfile}
-      />
-
-      <VerificationModal
-        isOpen={isVerificationModalOpen}
-        onClose={() => setIsVerificationModalOpen(false)}
-        currentUser={currentUser}
-        onVerificationSuccess={() => {
-          setCurrentUser(prev => ({
-            ...prev,
-            isEmailVerified: true,
-            isMobileVerified: true
-          }));
-          showToast('Email & Mobile verified!');
-        }}
       />
 
       <ListFoodModal

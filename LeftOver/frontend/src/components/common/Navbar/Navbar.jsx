@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Moon, Sun, Bell, User, ShoppingBag, LogIn, Settings, ShieldCheck, Menu, X } from 'lucide-react';
+import { Moon, Sun, Bell, User, ShoppingBag, LogIn, Settings, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = ({ 
@@ -12,7 +12,6 @@ const Navbar = ({
   currentUser,
   onOpenAuth,
   onOpenProfileSettings,
-  onOpenVerification,
   onSignOut
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -131,18 +130,8 @@ const Navbar = ({
                 <div className="dropdown-user-info">
                   <strong>{currentUser.name}</strong>
                   <span>{currentUser.email}</span>
-                  {currentUser.isEmailVerified ? (
-                    <span className="nav-verified-badge"><ShieldCheck size={12} /> Email & Mobile Verified</span>
-                  ) : (
-                    <button className="btn-unverified-tag" onClick={() => { onOpenVerification?.(); setShowProfileMenu(false); }}>
-                      <ShieldCheck size={12} /> Verify Email & Mobile
-                    </button>
-                  )}
                 </div>
                 <div className="dropdown-divider"></div>
-                <button className="dropdown-item" onClick={() => { onOpenVerification?.(); setShowProfileMenu(false); }}>
-                  <ShieldCheck size={14} style={{ marginRight: 6 }} /> Verify Email & Mobile
-                </button>
                 <button className="dropdown-item" onClick={() => { onOpenProfileSettings(); setShowProfileMenu(false); }}>
                   <Settings size={14} style={{ marginRight: 6 }} /> Edit Profile Settings
                 </button>

@@ -32,20 +32,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  isEmailVerified: {
-    type: Boolean,
-    default: false
-  },
-  isMobileVerified: {
-    type: Boolean,
-    default: false
-  },
-  emailOtp: {
-    type: String
-  },
-  mobileOtp: {
-    type: String
-  },
   savedDonors: [{
     type: String
   }]
