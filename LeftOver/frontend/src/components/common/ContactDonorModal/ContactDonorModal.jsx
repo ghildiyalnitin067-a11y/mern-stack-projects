@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Send, User, MessageCircle, CheckCircle2 } from 'lucide-react';
 import './ContactDonorModal.css';
 
 const ContactDonorModal = ({ isOpen, onClose, food }) => {
-  const [messages, setMessages] = useState([
-    { sender: 'donor', text: `Hi! Thank you for your interest in ${food?.title || 'this item'}. What time would you like to pick it up?` }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
+
+  // Reset chat messages when food item changes (fixes stale closure bug)
+  useEffect(() => {
+    if (food) {
+      setMessages([
+        { sender: 'donor', text: `Hi! Thank you for your interest in ${food.title}. What time would you like to pick it up?` }
+      ]);
+      setInputText('');
+    }
+  }, [food?.id, food?.title]);
 
   if (!isOpen || !food) return null;
 
