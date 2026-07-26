@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Camera, Upload, Link as LinkIcon, User, Check, RefreshCw } from 'lucide-react';
+import { X, Camera, Upload, Link as LinkIcon, User, Check, Loader } from 'lucide-react';
 import { apiUploadImage } from '../../../services/api';
 import './ProfileSettingsModal.css';
 
@@ -10,6 +10,8 @@ const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile })
   const [bio, setBio] = useState(currentUser?.bio || 'Seattle Food Rescuer & Community Volunteer');
   const [avatar, setAvatar] = useState(currentUser?.avatar || '');
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
   // Photo Upload Tab
   const [photoSource, setPhotoSource] = useState('upload'); // 'upload', 'camera', 'url'
   const [customUrl, setCustomUrl] = useState('');
@@ -27,9 +29,13 @@ const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile })
     if (isOpen && currentUser) {
       setName(currentUser.name || '');
       setEmail(currentUser.email || '');
-      setPhone(currentUser.phone || '(206) 555-0192');
-      setBio(currentUser.bio || 'Seattle Food Rescuer & Community Volunteer');
-      setAvatar(currentUser.avatar || '');
+      setPhone(currentUser.phone || '+91 00000 00000');
+      setBio(currentUser.bio || 'Community Food Rescuer & Volunteer');
+      // Read avatar from dedicated localStorage key to avoid 5MB quota issues
+      const savedAvatar = localStorage.getItem('leftover_avatar') || currentUser.avatar || '';
+      setAvatar(savedAvatar);
+      setSaveError('');
+      setIsSaving(false);
     }
   }, [isOpen, currentUser]);
 
@@ -101,15 +107,49 @@ const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile })
   const handleSave = async (e) => {
     e.preventDefault();
     handleStopCamera();
-    const finalAvatar = await apiUploadImage(avatar, 'avatars');
-    onUpdateProfile({
-      name,
-      email,
-      phone,
-      bio,
-      avatar: finalAvatar
-    });
-    onClose();
+    setIsSaving(true);
+    setSaveError('');
+
+    try {
+      let finalAvatar = avatar;
+
+      // Only call upload API if avatar is a new base64 blob (camera/file upload)
+      if (avatar && avatar.startsWith('data:')) {
+        const result = await apiUploadImage(avatar, 'avatars');
+        finalAvatar = result || avatar;
+      }
+
+      // Store avatar separately in localStorage to avoid 5MB quota overflow
+      // The main user object in localStorage should stay small
+      try {
+        if (finalAvatar) {
+          localStorage.setItem('leftover_avatar', finalAvatar);
+        } else {
+          localStorage.removeItem('leftover_avatar');
+        }
+      } catch (quotaErr) {
+        // If image is too large even for dedicated key, store URL only (Cloudinary URL)
+        console.warn('Avatar localStorage quota exceeded, trying URL-only save:', quotaErr);
+        if (finalAvatar && !finalAvatar.startsWith('data:')) {
+          localStorage.setItem('leftover_avatar', finalAvatar);
+        }
+      }
+
+      onUpdateProfile({
+        name,
+        email,
+        phone,
+        bio,
+        avatar: finalAvatar
+      });
+
+      onClose();
+    } catch (err) {
+      console.error('Profile save error:', err);
+      setSaveError('Failed to save changes. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -265,12 +305,18 @@ const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile })
             />
           </div>
 
+          {saveError && <p className="profile-save-error">{saveError}</p>}
+
           <div className="profile-modal-actions">
-            <button type="button" className="btn-profile-cancel" onClick={() => { handleStopCamera(); onClose(); }}>
+            <button type="button" className="btn-profile-cancel" onClick={() => { handleStopCamera(); onClose(); }} disabled={isSaving}>
               Cancel
             </button>
-            <button type="submit" className="btn-profile-save">
-              <Check size={16} /> Save Changes
+            <button type="submit" className="btn-profile-save" disabled={isSaving}>
+              {isSaving ? (
+                <><Loader size={16} className="spin-icon" /> Saving...</>
+              ) : (
+                <><Check size={16} /> Save Changes</>
+              )}
             </button>
           </div>
 

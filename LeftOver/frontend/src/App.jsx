@@ -34,7 +34,12 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(() => {
     const saved = localStorage.getItem('leftover_user');
-    return saved ? JSON.parse(saved) : null;
+    if (!saved) return null;
+    const user = JSON.parse(saved);
+    // Rehydrate avatar from its dedicated key (stored separately to avoid 5MB quota)
+    const savedAvatar = localStorage.getItem('leftover_avatar');
+    if (savedAvatar && user) user.avatar = savedAvatar;
+    return user;
   });
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -70,7 +75,13 @@ function App() {
   }, [reservedIds]);
 
   useEffect(() => {
-    localStorage.setItem('leftover_user', JSON.stringify(currentUser));
+    if (currentUser) {
+      // Save user object WITHOUT avatar blob to keep localStorage small
+      const { avatar, ...userWithoutAvatar } = currentUser;
+      localStorage.setItem('leftover_user', JSON.stringify(userWithoutAvatar));
+    } else {
+      localStorage.removeItem('leftover_user');
+    }
   }, [currentUser]);
 
   useEffect(() => {
@@ -126,6 +137,7 @@ function App() {
     setCurrentUser(null);
     localStorage.removeItem('leftover_token');
     localStorage.removeItem('leftover_user');
+    localStorage.removeItem('leftover_avatar');
     showToast('Signed out of account.');
   };
 
