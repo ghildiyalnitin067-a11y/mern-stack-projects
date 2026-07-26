@@ -15,8 +15,8 @@
 
 | Resource | Link / Status | Description |
 | :--- | :--- | :--- |
-| 🌐 **Live User Web App** | `[ Insert Live App URL Here ]` | Main user portal to browse, list, and claim surplus food |
-| 🛡️ **Admin Dashboard** | `[ Insert Admin Portal URL Here ]` | Administrative moderation and analytics panel |
+| 🌐 **Live User Web App** | `https://mern-stack-projects-c62o.vercel.app/` | Main user portal to browse, list, and claim surplus food |
+| 🛡️ **Admin Dashboard** | `(https://mern-stack-projects-ua53.vercel.app/)` | Administrative moderation and analytics panel |
 
 ---
 
