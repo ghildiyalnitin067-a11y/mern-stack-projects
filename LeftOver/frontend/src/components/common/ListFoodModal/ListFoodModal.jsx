@@ -22,10 +22,10 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
   const [pickupInstructions, setPickupInstructions] = useState('Pick up at front entrance. Ring bell.');
   const [donorName, setDonorName] = useState('Community Donor');
   
-  // Image handling states
+  // Image handling states (supports up to 5 photos)
   const [selectedImage, setSelectedImage] = useState(PRESET_IMAGES[0].url);
   const [customImageUrl, setCustomImageUrl] = useState('');
-  const [uploadedImagePreview, setUploadedImagePreview] = useState('');
+  const [uploadedImages, setUploadedImages] = useState([]); // Array of base64 images
   const [selectedDietary, setSelectedDietary] = useState(['Vegetarian']);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -50,7 +50,7 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     setDonorName('Community Donor');
     setSelectedImage(PRESET_IMAGES[0].url);
     setCustomImageUrl('');
-    setUploadedImagePreview('');
+    setUploadedImages([]);
     setSelectedDietary(['Vegetarian']);
   };
 
@@ -60,18 +60,26 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     );
   };
 
-  // 1. File Upload Handler
+  // 1. Multi-File Upload Handler (up to 5 images)
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadedImagePreview(reader.result);
-        setSelectedImage(reader.result);
-        setCustomImageUrl('');
-      };
-      reader.readAsDataURL(file);
+    const files = Array.from(e.target.files).slice(0, 5); // Max 5 photos
+    if (files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setUploadedImages(prev => {
+            if (prev.length >= 5) return prev;
+            return [...prev, reader.result];
+          });
+          setCustomImageUrl('');
+        };
+        reader.readAsDataURL(file);
+      });
     }
+  };
+
+  const removeUploadedPhoto = (indexToRemove) => {
+    setUploadedImages(prev => prev.filter((_, idx) => idx !== indexToRemove));
   };
 
   // 2. Start Camera Handler
@@ -114,8 +122,7 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       const capturedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      setUploadedImagePreview(capturedDataUrl);
-      setSelectedImage(capturedDataUrl);
+      setUploadedImages(prev => [...prev.slice(0, 4), capturedDataUrl]);
       setCustomImageUrl('');
       stopCamera();
     }
@@ -130,8 +137,16 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
 
-    const rawImage = customImageUrl.trim() || uploadedImagePreview || selectedImage;
-    const finalImage = await apiUploadImage(rawImage, 'food_listings');
+    // Process all uploaded photos (up to 5) or use selected preset/URL
+    let finalImages = [];
+    if (uploadedImages.length > 0) {
+      const uploadPromises = uploadedImages.map(img => apiUploadImage(img, 'food_listings'));
+      finalImages = await Promise.all(uploadPromises);
+    } else if (customImageUrl.trim()) {
+      finalImages = [customImageUrl.trim()];
+    } else {
+      finalImages = [selectedImage];
+    }
 
     const newFoodItem = {
       id: `food-${Date.now()}`,
@@ -147,7 +162,7 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
         rating: 5.0,
         totalDonations: 1
       },
-      images: [finalImage],
+      images: finalImages,
       dietary: selectedDietary,
       ingredients: ['Freshly Prepared Surplus Food'],
       allergenNote: '* Fresh surplus food listed by community donor.',
@@ -339,7 +354,7 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
                   type="file" 
                   ref={fileInputRef} 
                   accept="image/*" 
-                  capture="environment"
+                  multiple
                   className="hidden-file-input"
                   onChange={handleFileChange}
                 />
@@ -368,11 +383,20 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
                 </div>
               )}
 
-              {/* Selected / Uploaded Image Preview */}
-              {uploadedImagePreview && !isCameraActive && (
+              {/* Selected / Uploaded Image Previews Gallery */}
+              {uploadedImages.length > 0 && !isCameraActive && (
                 <div className="image-preview-card">
-                  <span className="preview-tag">Selected Photo Preview:</span>
-                  <img src={uploadedImagePreview} alt="Captured or Uploaded preview" className="uploaded-preview-img" />
+                  <span className="preview-tag">Uploaded Photos Gallery ({uploadedImages.length}/5):</span>
+                  <div className="multi-preview-grid">
+                    {uploadedImages.map((img, index) => (
+                      <div key={index} className="thumb-preview-item">
+                        <img src={img} alt={`Preview ${index + 1}`} className="uploaded-preview-img-thumb" />
+                        <button type="button" className="btn-remove-thumb" onClick={() => removeFavorite ? removeUploadedPhoto(index) : removeUploadedPhoto(index)}>
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -383,10 +407,10 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
                   {PRESET_IMAGES.map((img, idx) => (
                     <div 
                       key={idx} 
-                      className={`preset-img-option ${selectedImage === img.url && !uploadedImagePreview && !customImageUrl ? 'selected' : ''}`}
+                      className={`preset-img-option ${selectedImage === img.url && uploadedImages.length === 0 && !customImageUrl ? 'selected' : ''}`}
                       onClick={() => { 
                         setSelectedImage(img.url); 
-                        setUploadedImagePreview(''); 
+                        setUploadedImages([]); 
                         setCustomImageUrl(''); 
                       }}
                     >
