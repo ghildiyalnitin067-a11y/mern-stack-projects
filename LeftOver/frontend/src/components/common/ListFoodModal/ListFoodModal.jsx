@@ -18,7 +18,7 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
   const [description, setDescription] = useState('');
   const [pickupWindow, setPickupWindow] = useState('Today, 2:00 PM - 6:00 PM');
   const [expiresIn, setExpiresIn] = useState('Exp. in 4h');
-  const [address, setAddress] = useState('123 Main Street, Seattle, WA');
+  const [address, setAddress] = useState('12 MG Road, Connaught Place, New Delhi, Delhi 110001');
   const [pickupInstructions, setPickupInstructions] = useState('Pick up at front entrance. Ring bell.');
   const [donorName, setDonorName] = useState('Community Donor');
   
@@ -155,8 +155,8 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
       pickupWindow: pickupWindow.trim(),
       pickupInstructions: pickupInstructions.trim(),
       address: address.trim(),
-      lat: 47.606209,
-      lng: -122.332071,
+      lat: 28.6315,   // New Delhi default
+      lng: 77.2167,
       status: 'Available'
     };
 
