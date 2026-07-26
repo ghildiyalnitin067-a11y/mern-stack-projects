@@ -59,7 +59,7 @@ export const getUserReservations = async (req, res) => {
       const userRes = await Reservation.find({ userId });
       return res.json({ success: true, data: userRes });
     } else {
-      const userRes = mockReservations.filter(r => r.userId === userId || true);
+      const userRes = mockReservations.filter(r => r.userId === userId);
       return res.json({ success: true, data: userRes });
     }
   } catch (error) {
