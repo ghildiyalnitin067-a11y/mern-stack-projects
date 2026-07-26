@@ -39,6 +39,21 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
 
   if (!isOpen) return null;
 
+  const resetForm = () => {
+    setTitle('');
+    setCategory('Cooked');
+    setDescription('');
+    setPickupWindow('Today, 2:00 PM - 6:00 PM');
+    setExpiresIn('Exp. in 4h');
+    setAddress('123 Main Street, Seattle, WA');
+    setPickupInstructions('Pick up at front entrance. Ring bell.');
+    setDonorName('Community Donor');
+    setSelectedImage(PRESET_IMAGES[0].url);
+    setCustomImageUrl('');
+    setUploadedImagePreview('');
+    setSelectedDietary(['Vegetarian']);
+  };
+
   const handleDietaryToggle = (tag) => {
     setSelectedDietary(prev => 
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
@@ -151,6 +166,7 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
 
     setTimeout(() => {
       setIsSuccess(false);
+      resetForm();
       onClose();
     }, 1600);
   };
