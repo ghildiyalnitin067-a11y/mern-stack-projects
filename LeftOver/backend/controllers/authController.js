@@ -119,6 +119,11 @@ export const loginUser = async (req, res) => {
     } else {
       const user = dynamicUsersStore.find(u => u.email === cleanEmail);
       if (user) {
+        // In-memory fallback: compare hashed password
+        const isMatch = await bcrypt.compare(password, user.passwordHash || '');
+        if (!isMatch) {
+          return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+        }
         return res.json({
           success: true,
           data: {
@@ -132,27 +137,8 @@ export const loginUser = async (req, res) => {
         });
       }
 
-      // Auto-create account for dev convenience
-      const newUser = {
-        id: `user-${Date.now()}`,
-        name: cleanEmail.split('@')[0],
-        email: cleanEmail,
-        role: 'user',
-        avatar: null
-      };
-      dynamicUsersStore.push(newUser);
-
-      return res.json({
-        success: true,
-        data: {
-          id: newUser.id,
-          name: newUser.name,
-          email: newUser.email,
-          role: newUser.role,
-          avatar: null,
-          token: generateToken(newUser.id, newUser.name, newUser.email, newUser.role)
-        }
-      });
+      // No account found — do not auto-create, require registration
+      return res.status(401).json({ success: false, message: 'No account found with this email. Please register first.' });
     }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -219,7 +205,8 @@ export const sendOtp = async (req, res) => {
 
     return res.json({
       success: true,
-      otp,               // always return otp so frontend can show it as fallback
+      // Only expose OTP on screen if email delivery failed (security: don't return it when email was sent successfully)
+      otp: emailSent ? undefined : otp,
       emailSent,
       message: emailSent
         ? `Verification code sent to ${cleanEmail}. Check your inbox.`
@@ -255,6 +242,7 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
     }
 
+    otpStore.delete(cleanEmail);
     return res.json({ success: true, message: 'OTP verified successfully!' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
