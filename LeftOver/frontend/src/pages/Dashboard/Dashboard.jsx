@@ -90,8 +90,8 @@ const Dashboard = ({
     setFavoriteDonors(prev => prev.filter(d => d.id !== donorId));
   };
 
-  const userName = currentUser?.name || 'Sarah Jenkins';
-  const userBio = currentUser?.bio || 'Seattle Community Member • Joined Jan 2024';
+  const userName = currentUser?.name || 'Community Member';
+  const userBio = currentUser?.bio || 'Food Rescuer & Community Volunteer';
 
   return (
     <div className="dashboard-page">
@@ -126,9 +126,9 @@ const Dashboard = ({
                 {userBio}
               </p>
               <div className="impact-mini-row">
-                <span className="mini-impact-tag">95.2 kg CO₂ Saved</span>
-                <span className="mini-impact-tag">38 Meals Rescued</span>
-                <span className="mini-impact-tag">4.9 Rating</span>
+                <span className="mini-impact-tag">{(reservedIds.length * 2.5).toFixed(1)} kg CO₂ Saved</span>
+                <span className="mini-impact-tag">{reservedIds.length} Meals Rescued</span>
+                <span className="mini-impact-tag">Verified Member</span>
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@ const Dashboard = ({
             </div>
             <div className="kpi-content">
               <span className="kpi-label">Meals Rescued</span>
-              <span className="kpi-value">{38 + reservedIds.length}</span>
+              <span className="kpi-value">{reservedIds.length}</span>
               <span className="kpi-subtext">Prevented from waste</span>
             </div>
           </div>
@@ -163,7 +163,7 @@ const Dashboard = ({
             </div>
             <div className="kpi-content">
               <span className="kpi-label">CO₂ Offset</span>
-              <span className="kpi-value">95.2 kg</span>
+              <span className="kpi-value">{(reservedIds.length * 2.5).toFixed(1)} kg</span>
               <span className="kpi-subtext">Greenhouse gas saved</span>
             </div>
           </div>
@@ -185,7 +185,7 @@ const Dashboard = ({
             </div>
             <div className="kpi-content">
               <span className="kpi-label">Donations Given</span>
-              <span className="kpi-value">{14 + myListings.length}</span>
+              <span className="kpi-value">{myListings.length}</span>
               <span className="kpi-subtext">Surplus items shared</span>
             </div>
           </div>

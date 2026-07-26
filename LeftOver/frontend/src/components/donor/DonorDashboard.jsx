@@ -5,28 +5,7 @@ import {
 } from 'lucide-react';
 import './DonorDashboard.css';
 
-const INITIAL_DONOR_CLAIMS = [
-  {
-    id: 'claim-1',
-    customerName: 'Alex Rivera',
-    customerEmail: 'alex.r@example.com',
-    itemTitle: 'Fresh Assorted Pastries',
-    claimCode: '#LO-OD-1',
-    slot: '3:00 PM - 3:15 PM',
-    status: 'Ready for Pickup',
-    portions: 1
-  },
-  {
-    id: 'claim-2',
-    customerName: 'Maria Garcia',
-    customerEmail: 'maria.g@example.com',
-    itemTitle: 'Assorted Gourmet Cupcakes',
-    claimCode: '#LO-8921',
-    slot: '4:15 PM - 4:30 PM',
-    status: 'Ready for Pickup',
-    portions: 2
-  }
-];
+
 
 const DonorDashboard = ({ 
   foodItems = [], 
@@ -36,7 +15,7 @@ const DonorDashboard = ({
   onSwitchRole 
 }) => {
   const [activeTab, setActiveTab] = useState('claims');
-  const [incomingClaims, setIncomingClaims] = useState(INITIAL_DONOR_CLAIMS);
+  const [incomingClaims, setIncomingClaims] = useState([]);
 
   // Filter listings created by donors
   const donorListings = foodItems;
@@ -71,12 +50,11 @@ const DonorDashboard = ({
               </button>
             </div>
             <p className="donor-subtitle">
-              Commercial Food Partner • Member since Jan 2024 • Seattle, WA
+              Commercial Food Partner • Joined LeftOver Platform
             </p>
             <div className="donor-stats-row">
-              <span className="mini-stat-tag">★ 4.9 Store Rating</span>
-              <span className="mini-stat-tag">120 Total Meals Donated</span>
-              <span className="mini-stat-tag">98 Neighbors Fed</span>
+              <span className="mini-stat-tag">Verified Partner</span>
+              <span className="mini-stat-tag">{donorListings.length} Active Listings</span>
             </div>
           </div>
         </div>
@@ -97,8 +75,8 @@ const DonorDashboard = ({
           </div>
           <div className="kpi-content">
             <span className="kpi-label">Total Donations Given</span>
-            <span className="kpi-value">120</span>
-            <span className="kpi-subtext">Surplus meals rescued</span>
+            <span className="kpi-value">{donorListings.length}</span>
+            <span className="kpi-subtext">Surplus meals listed</span>
           </div>
         </div>
 
@@ -107,9 +85,9 @@ const DonorDashboard = ({
             <Users size={20} />
           </div>
           <div className="kpi-content">
-            <span className="kpi-label">Neighbors Impacted</span>
-            <span className="kpi-value">98</span>
-            <span className="kpi-subtext">Local community members</span>
+            <span className="kpi-label">Completed Pickups</span>
+            <span className="kpi-value">{incomingClaims.filter(c => c.status === 'Completed').length}</span>
+            <span className="kpi-subtext">Rescued by community</span>
           </div>
         </div>
 
@@ -129,9 +107,9 @@ const DonorDashboard = ({
             <Star size={20} />
           </div>
           <div className="kpi-content">
-            <span className="kpi-label">Donor Rating</span>
-            <span className="kpi-value">4.9 ★</span>
-            <span className="kpi-subtext">Based on 85 reviews</span>
+            <span className="kpi-label">Donor Status</span>
+            <span className="kpi-value">Verified</span>
+            <span className="kpi-subtext">Active contributor</span>
           </div>
         </div>
 
@@ -163,39 +141,47 @@ const DonorDashboard = ({
           </div>
 
           <div className="claims-list">
-            {incomingClaims.map(claim => (
-              <div key={claim.id} className="donor-claim-card">
-                <div className="claim-main-info">
-                  <div className="claim-top-row">
-                    <span className="claim-customer-name">{claim.customerName}</span>
-                    <span className={`claim-status-pill ${claim.status === 'Completed' ? 'completed' : 'pending'}`}>
-                      {claim.status === 'Completed' ? <CheckCircle2 size={13} /> : <Clock size={13} />}
-                      {claim.status}
-                    </span>
+            {incomingClaims.length > 0 ? (
+              incomingClaims.map(claim => (
+                <div key={claim.id} className="donor-claim-card">
+                  <div className="claim-main-info">
+                    <div className="claim-top-row">
+                      <span className="claim-customer-name">{claim.customerName}</span>
+                      <span className={`claim-status-pill ${claim.status === 'Completed' ? 'completed' : 'pending'}`}>
+                        {claim.status === 'Completed' ? <CheckCircle2 size={13} /> : <Clock size={13} />}
+                        {claim.status}
+                      </span>
+                    </div>
+
+                    <h4 className="claim-item-title">{claim.itemTitle}</h4>
+                    <p className="claim-slot-text">Pickup Window: {claim.slot} • {claim.portions} Portion(s)</p>
+
+                    <div className="donor-code-verify-box">
+                      <span className="verify-code-label">Customer Claim Code:</span>
+                      <span className="verify-code-value">{claim.claimCode}</span>
+                    </div>
                   </div>
 
-                  <h4 className="claim-item-title">{claim.itemTitle}</h4>
-                  <p className="claim-slot-text">Pickup Window: {claim.slot} • {claim.portions} Portion(s)</p>
-
-                  <div className="donor-code-verify-box">
-                    <span className="verify-code-label">Customer Claim Code:</span>
-                    <span className="verify-code-value">{claim.claimCode}</span>
+                  <div className="claim-action-side">
+                    {claim.status === 'Completed' ? (
+                      <button className="btn-claim-verified" disabled>
+                        <CheckCircle2 size={16} /> Pickup Verified
+                      </button>
+                    ) : (
+                      <button className="btn-verify-code" onClick={() => handleVerifyClaim(claim.id)}>
+                        <ShieldCheck size={16} /> Verify & Complete Pickup
+                      </button>
+                    )}
                   </div>
                 </div>
-
-                <div className="claim-action-side">
-                  {claim.status === 'Completed' ? (
-                    <button className="btn-claim-verified" disabled>
-                      <CheckCircle2 size={16} /> Pickup Verified
-                    </button>
-                  ) : (
-                    <button className="btn-verify-code" onClick={() => handleVerifyClaim(claim.id)}>
-                      <ShieldCheck size={16} /> Verify & Complete Pickup
-                    </button>
-                  )}
-                </div>
+              ))
+            ) : (
+              <div className="empty-tab-state" style={{ padding: '40px 20px', textAlign: 'center' }}>
+                <Clock size={36} className="empty-tab-icon" style={{ color: '#94a3b8', marginBottom: '12px' }} />
+                <h3>No Incoming Claims Yet</h3>
+                <p style={{ color: '#64748b' }}>When customers reserve your surplus food, their claim details will appear here.</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       )}
