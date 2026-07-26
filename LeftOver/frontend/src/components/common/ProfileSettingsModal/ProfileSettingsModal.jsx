@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { X, Camera, Upload, Link as LinkIcon, User, Check, RefreshCw } from 'lucide-react';
 import { apiUploadImage } from '../../../services/api';
 import './ProfileSettingsModal.css';
@@ -20,6 +20,18 @@ const ProfileSettingsModal = ({ isOpen, onClose, currentUser, onUpdateProfile })
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const mediaStreamRef = useRef(null);
+
+  // Sync form state when modal opens or currentUser prop changes
+  // Must be declared BEFORE the early return to obey React's Rules of Hooks
+  useEffect(() => {
+    if (isOpen && currentUser) {
+      setName(currentUser.name || '');
+      setEmail(currentUser.email || '');
+      setPhone(currentUser.phone || '(206) 555-0192');
+      setBio(currentUser.bio || 'Seattle Food Rescuer & Community Volunteer');
+      setAvatar(currentUser.avatar || '');
+    }
+  }, [isOpen, currentUser]);
 
   if (!isOpen) return null;
 
