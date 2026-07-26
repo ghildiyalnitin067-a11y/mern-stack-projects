@@ -68,16 +68,42 @@ export const apiVerifyOtp = async (email, otp) => {
   }
 };
 
-export const apiFetchFoodListings = async () => {
+// In-Memory & Storage Cache Layer for API Optimization
+const CACHE_KEYS = {
+  FOOD_LISTINGS: 'leftover_cache_food_listings',
+  CACHE_TIME: 'leftover_cache_food_time'
+};
+
+const CACHE_TTL_MS = 2 * 60 * 1000; // 2 Minutes TTL for listings cache
+
+export const apiFetchFoodListings = async (forceRefresh = false) => {
   try {
+    // 1. Check cache first if not forcing refresh
+    if (!forceRefresh) {
+      const cachedData = sessionStorage.getItem(CACHE_KEYS.FOOD_LISTINGS);
+      const cachedTime = sessionStorage.getItem(CACHE_KEYS.CACHE_TIME);
+      if (cachedData && cachedTime && (Date.now() - parseInt(cachedTime, 10)) < CACHE_TTL_MS) {
+        return JSON.parse(cachedData);
+      }
+    }
+
+    // 2. Fetch from backend API
     const res = await fetch(`${API_BASE_URL}/food`);
     const data = await res.json();
     if (data.success && Array.isArray(data.data)) {
+      // Update Cache
+      sessionStorage.setItem(CACHE_KEYS.FOOD_LISTINGS, JSON.stringify(data.data));
+      sessionStorage.setItem(CACHE_KEYS.CACHE_TIME, Date.now().toString());
       return data.data;
     }
-    return null;
+
+    // Stale fallback from cache if backend response structure is invalid
+    const staleData = sessionStorage.getItem(CACHE_KEYS.FOOD_LISTINGS);
+    return staleData ? JSON.parse(staleData) : null;
   } catch (err) {
-    return null;
+    console.warn('[Cache System] Network failure. Serving cached listings fallback.');
+    const staleData = sessionStorage.getItem(CACHE_KEYS.FOOD_LISTINGS);
+    return staleData ? JSON.parse(staleData) : null;
   }
 };
 
@@ -91,7 +117,11 @@ export const apiCreateFoodListing = async (foodData) => {
       },
       body: JSON.stringify(foodData)
     });
-    return await res.json();
+    const result = await res.json();
+    // Invalidate cache on new creation so fresh list is fetched
+    sessionStorage.removeItem(CACHE_KEYS.FOOD_LISTINGS);
+    sessionStorage.removeItem(CACHE_KEYS.CACHE_TIME);
+    return result;
   } catch (err) {
     return { success: false, message: 'Failed to connect to backend server' };
   }

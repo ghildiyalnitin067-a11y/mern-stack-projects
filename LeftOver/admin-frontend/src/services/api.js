@@ -21,11 +21,14 @@ export const apiGetAdminUsers = async () => {
     });
     const data = await res.json();
     if (data.success && Array.isArray(data.data)) {
+      sessionStorage.setItem('admin_cache_users', JSON.stringify(data.data));
       return data.data;
     }
-    return null;
+    const cached = sessionStorage.getItem('admin_cache_users');
+    return cached ? JSON.parse(cached) : null;
   } catch (err) {
-    return null;
+    const cached = sessionStorage.getItem('admin_cache_users');
+    return cached ? JSON.parse(cached) : null;
   }
 };
 
@@ -90,10 +93,13 @@ export const apiGetAdminAnalytics = async () => {
     });
     const data = await res.json();
     if (data.success && data.data) {
+      sessionStorage.setItem('admin_cache_analytics', JSON.stringify(data.data));
       return data.data;
     }
-    return null;
+    const cached = sessionStorage.getItem('admin_cache_analytics');
+    return cached ? JSON.parse(cached) : null;
   } catch (err) {
-    return null;
+    const cached = sessionStorage.getItem('admin_cache_analytics');
+    return cached ? JSON.parse(cached) : null;
   }
 };
