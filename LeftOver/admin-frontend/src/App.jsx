@@ -163,7 +163,7 @@ function App() {
               </div>
               <div className="kpi-content">
                 <span className="kpi-label">Total Meals Rescued</span>
-                <span className="kpi-value">1,482 Meals</span>
+                <span className="kpi-value">{analytics?.totalMealsRescued ?? analytics?.totalFoodItems ?? 0} Meals</span>
                 <span className="kpi-subtext">Prevented from waste</span>
               </div>
             </div>
@@ -174,7 +174,7 @@ function App() {
               </div>
               <div className="kpi-content">
                 <span className="kpi-label">Platform CO₂ Offset</span>
-                <span className="kpi-value">{analytics?.totalCO2SavedKg || 3705} kg</span>
+                <span className="kpi-value">{analytics?.totalCO2SavedKg != null ? `${analytics.totalCO2SavedKg} kg` : '—'}</span>
                 <span className="kpi-subtext">Greenhouse gas saved</span>
               </div>
             </div>
@@ -342,39 +342,30 @@ function App() {
                 
                 <div className="analytics-card">
                   <h3>Food Rescue Distribution by Category</h3>
-                  
                   <div className="category-bars-list">
-                    <div className="cat-bar-item">
-                      <div className="cat-info">
-                        <span>Bakery & Pastries</span>
-                        <span>45% (667 Meals)</span>
+                    {analytics?.categoryBreakdown && analytics.categoryBreakdown.length > 0 ? (
+                      analytics.categoryBreakdown.map((cat, idx) => {
+                        const total = analytics.categoryBreakdown.reduce((s, c) => s + c.count, 0);
+                        const pct = total > 0 ? Math.round((cat.count / total) * 100) : 0;
+                        return (
+                          <div key={idx} className="cat-bar-item">
+                            <div className="cat-info">
+                              <span>{cat.category}</span>
+                              <span>{pct}% ({cat.count} Meals)</span>
+                            </div>
+                            <div className="cat-bar-bg">
+                              <div className="cat-bar-fill" style={{ width: `${pct}%` }}></div>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="admin-empty-state">
+                        <BarChart3 size={28} className="empty-icon" />
+                        <p>No category data available yet.</p>
+                        <span>Data will appear once food listings are created.</span>
                       </div>
-                      <div className="cat-bar-bg"><div className="cat-bar-fill" style={{ width: '45%' }}></div></div>
-                    </div>
-
-                    <div className="cat-bar-item">
-                      <div className="cat-info">
-                        <span>Organic Produce & Veggies</span>
-                        <span>30% (445 Meals)</span>
-                      </div>
-                      <div className="cat-bar-bg"><div className="cat-bar-fill" style={{ width: '30%' }}></div></div>
-                    </div>
-
-                    <div className="cat-bar-item">
-                      <div className="cat-info">
-                        <span>Hot Meals & Stews</span>
-                        <span>15% (222 Meals)</span>
-                      </div>
-                      <div className="cat-bar-bg"><div className="cat-bar-fill" style={{ width: '15%' }}></div></div>
-                    </div>
-
-                    <div className="cat-bar-item">
-                      <div className="cat-info">
-                        <span>Gourmet Desserts</span>
-                        <span>10% (148 Meals)</span>
-                      </div>
-                      <div className="cat-bar-bg"><div className="cat-bar-fill" style={{ width: '10%' }}></div></div>
-                    </div>
+                    )}
                   </div>
                 </div>
 
@@ -382,18 +373,22 @@ function App() {
                   <h3>System Audit Trail & Security Logs</h3>
                   
                   <div className="audit-logs-list">
-                    <div className="log-item">
-                      <span className="log-time">17:22</span>
-                      <span className="log-msg">MongoDB Atlas connection active on host ac-zavdxan-shard.</span>
-                    </div>
-                    <div className="log-item">
-                      <span className="log-time">16:45</span>
-                      <span className="log-msg">Express Security Shield: Helmet & Rate Limiter active on port 5000.</span>
-                    </div>
-                    <div className="log-item">
-                      <span className="log-time">15:10</span>
-                      <span className="log-msg">New donation published by Sunny Bakery (Fresh Pastries).</span>
-                    </div>
+                    {analytics?.recentActivity && analytics.recentActivity.length > 0 ? (
+                      analytics.recentActivity.map((log, idx) => (
+                        <div key={idx} className="log-item">
+                          <span className="log-time">
+                            {log.time || new Date(log.createdAt || Date.now()).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                          <span className="log-msg">{log.message || log.action}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="admin-empty-state">
+                        <RefreshCw size={24} className="empty-icon" />
+                        <p>No activity logs yet.</p>
+                        <span>System events will appear here as users interact with the platform.</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 

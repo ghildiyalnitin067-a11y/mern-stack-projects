@@ -10,7 +10,6 @@ import ContactDonorModal from './components/common/ContactDonorModal/ContactDono
 import ReservationModal from './components/common/ReservationModal/ReservationModal';
 import AuthModal from './components/common/AuthModal/AuthModal';
 import ProfileSettingsModal from './components/common/ProfileSettingsModal/ProfileSettingsModal';
-import { INITIAL_FOOD_ITEMS } from './data/mockFoodData';
 import {
   apiFetchFoodListings,
   apiCreateFoodListing,
@@ -22,10 +21,7 @@ import './App.css';
 
 function App() {
   const [activePage, setActivePage] = useState('discover');
-  const [foodItems, setFoodItems] = useState(() => {
-    const saved = localStorage.getItem('leftover_food_items');
-    return saved ? JSON.parse(saved) : INITIAL_FOOD_ITEMS;
-  });
+  const [foodItems, setFoodItems] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
   const [reservedIds, setReservedIds] = useState(() => {
     const saved = localStorage.getItem('leftover_reserved_ids');
@@ -64,11 +60,6 @@ function App() {
     }
     loadBackendData();
   }, []);
-
-  // Save state to localStorage
-  useEffect(() => {
-    localStorage.setItem('leftover_food_items', JSON.stringify(foodItems));
-  }, [foodItems]);
 
   useEffect(() => {
     localStorage.setItem('leftover_reserved_ids', JSON.stringify(reservedIds));
