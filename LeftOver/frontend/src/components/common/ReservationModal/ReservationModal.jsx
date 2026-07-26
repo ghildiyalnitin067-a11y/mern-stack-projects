@@ -29,6 +29,7 @@ const ReservationModal = ({ isOpen, onClose, food, onConfirmReservation }) => {
   const handleFinalConfirm = () => {
     onConfirmReservation({
       food,
+      foodId: food.id || food._id,
       selectedSlot,
       quantity,
       phone,
