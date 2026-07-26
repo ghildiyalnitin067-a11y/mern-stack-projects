@@ -174,13 +174,17 @@ function App() {
 
   const handleAddListing = async (newItem) => {
     requireAuth(async () => {
-      setFoodItems(prev => [newItem, ...prev]);
       const res = await apiCreateFoodListing(newItem);
       if (res && res.success === false) {
         showToast(res.message || 'Failed to list item on server.');
         return;
       }
       showToast(`Successfully published "${newItem.title}"!`);
+      // Force refresh listings from backend (bypassing client cache)
+      const freshItems = await apiFetchFoodListings(true);
+      if (freshItems) {
+        setFoodItems(freshItems);
+      }
     });
   };
 
