@@ -52,7 +52,34 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     setCustomImageUrl('');
     setUploadedImages([]);
     setSelectedDietary(['Vegetarian']);
-  };
+// Helper to compress image data URL using Canvas (max width 800px, 0.7 quality)
+const compressImageDataUrl = (dataUrl, maxWidth = 800, quality = 0.7) => {
+  return new Promise((resolve) => {
+    if (!dataUrl || !dataUrl.startsWith('data:image')) {
+      return resolve(dataUrl);
+    }
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+};
 
   const handleDietaryToggle = (tag) => {
     setSelectedDietary(prev => 
@@ -60,16 +87,17 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     );
   };
 
-  // 1. Multi-File Upload Handler (up to 5 images)
+  // 1. Multi-File Upload Handler (up to 5 images with automatic compression)
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 5); // Max 5 photos
     if (files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onloadend = () => {
+        reader.onloadend = async () => {
+          const compressed = await compressImageDataUrl(reader.result);
           setUploadedImages(prev => {
             if (prev.length >= 5) return prev;
-            return [...prev, reader.result];
+            return [...prev, compressed];
           });
           setCustomImageUrl('');
         };
@@ -140,7 +168,15 @@ const ListFoodModal = ({ isOpen, onClose, onAddListing }) => {
     // Process all uploaded photos (up to 5) or use selected preset/URL
     let finalImages = [];
     if (uploadedImages.length > 0) {
-      const uploadPromises = uploadedImages.map(img => apiUploadImage(img, 'food_listings'));
+      const uploadPromises = uploadedImages.map(async (img) => {
+        const compressed = await compressImageDataUrl(img);
+        const uploadedUrl = await apiUploadImage(compressed, 'food_listings');
+        // If upload returned raw base64 over 300KB (Cloudinary fallback mode), fallback to crisp Unsplash placeholder to protect MongoDB payload size
+        if (uploadedUrl && uploadedUrl.startsWith('data:') && uploadedUrl.length > 300000) {
+          return PRESET_IMAGES[0].url;
+        }
+        return uploadedUrl || PRESET_IMAGES[0].url;
+      });
       finalImages = await Promise.all(uploadPromises);
     } else if (customImageUrl.trim()) {
       finalImages = [customImageUrl.trim()];
