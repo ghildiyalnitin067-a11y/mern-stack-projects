@@ -56,8 +56,8 @@ const foodSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  lat: { type: Number, default: 47.606209 },
-  lng: { type: Number, default: -122.332071 },
+  lat: { type: Number, default: 28.6315 },   // New Delhi default
+  lng: { type: Number, default: 77.2167 },
   status: {
     type: String,
     enum: ['Available', 'Reserved', 'Collected'],
