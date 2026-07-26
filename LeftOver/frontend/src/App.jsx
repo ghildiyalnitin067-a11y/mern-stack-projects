@@ -120,7 +120,8 @@ function App() {
 
   const handleAuthSuccess = (userData, token) => {
     setCurrentUser(userData);
-    if (token) localStorage.setItem('leftover_token', token);
+    const authToken = token || userData?.token;
+    if (authToken) localStorage.setItem('leftover_token', authToken);
     showToast(`Welcome ${userData.name}! Logged in successfully.`);
   };
 
@@ -172,9 +173,15 @@ function App() {
   };
 
   const handleAddListing = async (newItem) => {
-    setFoodItems(prev => [newItem, ...prev]);
-    await apiCreateFoodListing(newItem);
-    showToast(`Successfully published "${newItem.title}"!`);
+    requireAuth(async () => {
+      setFoodItems(prev => [newItem, ...prev]);
+      const res = await apiCreateFoodListing(newItem);
+      if (res && res.success === false) {
+        showToast(res.message || 'Failed to list item on server.');
+        return;
+      }
+      showToast(`Successfully published "${newItem.title}"!`);
+    });
   };
 
   return (
